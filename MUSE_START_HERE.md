@@ -63,7 +63,12 @@ Read these in this order. The file numbers are stable IDs; they don't show the r
 ## Blueprint status (finalized 2026-09-29)
 
 The blueprint is **complete enough to build from**: 29 spec files, the `profile/` foundation, and
-**620 tasks across 31 phases** (`tasks/00_TASK_INDEX.md`). Nothing is coded yet. Start at P00.
+**620 tasks across 31 phases** (`tasks/00_TASK_INDEX.md`).
+
+> **Resuming? Start from the beginning, then find where things left off.** Read the files above in
+> order, then check `BUILD_LOG.md`, `git log`, and the checked boxes in `tasks/`. Don't trust the boxes:
+> re-verify each finished phase from P00 up. The current plan and the author's latest decisions are in
+> `orchestration/NEXT_STEPS.md`. (Updated 2026-10-02 at the author's request.)
 
 **Open items never block a phase.** Each one in `15_OPEN_ITEMS.md` has a "default until
 answered". Build with that default, keep it switchable in config, and label it provisional.
