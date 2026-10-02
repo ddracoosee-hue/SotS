@@ -121,7 +121,7 @@ C builds P24 on `main` in `lane/c/w6`. Muse-I merges it and closes the build (ta
 | T11A.032 | A | It rewrites `rewrite/style_guide.py`, which C creates in P15 (W2) | W3, A's first task | P11A "closed-with-deferral" |
 | T15.074 | C | It needs `eval/run_eval.py` (K4) | W2, after K4 lands | normal (same wave) |
 
-Rules: the deferral is listed in `sots-coord/DEFERRED.md`. The phase's `.090` close records
+Rules: the deferral is listed in `coord/DEFERRED.md`. The phase's `.090` close records
 `closed-with-deferral (T…)` in the lane's build-log staging file. The task is picked up **first** when
 its dependency lands. The phase counts as done only when the deferred task is checked and its `.090`
 evidence is refreshed. A later phase in the same lane may start while a deferral is open, but only if

@@ -51,6 +51,39 @@ Muse: never guess these answers. Build around them, and append new questions at 
 ## B. Questions from Muse
 _(append here: `- [date] [phase] question`)_
 
+- [2026-10-02] [W0] **N-2 (APPLIED): arch-guard HTTP allowlist.** `research/fetchers/`
+  + `research/search/` join `providers/` and `agents/tools/` as the only places
+  that may touch the network (`tests/unit/test_architecture.py`). The 12 P07
+  files (incl. `wikipedia.py`) now pass; anything else still fails.
+- [2026-10-02] [W0] **N-3 (RECORDED): Lane A owns `voice/` end to end.**
+  Only the integrator touches `voice/` in W0 (nothing needed touching);
+  from W1 on, all voice work (P11A + voice tasks) is Lane A's.
+- [2026-10-02] [W0] **N-4 (RECORDED): Lane B verifies the partial P07 code.**
+  P07 is ~40% present, 0/24 boxes, with ruff/pyright errors. W0 applies only
+  the N-2 allowlist; Lane B verifies task by task and completes it in W1.
+- [2026-10-02] [W0] **AQ-W0-1 (ANSWERED): Muse starts from the beginning.**
+  The W0 integrator session re-read the full blueprint order, re-verified
+  P00–P06 + P04A + vault task by task (evidence in `sots-coord/evidence/I/W0.md`),
+  then executed the Wave 0 plan. No box needed un-ticking.
+- [2026-10-02] [W0] **AD-1…AD-7 (RECORDED, full text in `coord/DECISIONS.md`
+  D-001…D-007).** AD-1: parallel lanes approved as an explicit R-SCOPE-03
+  exception (strict order inside each lane; cross-lane deps gate on merges).
+  AD-2: deferred-by-plan tasks allowed. AD-3: baseline commit approved.
+  AD-4: W0 hotspot splits approved (`storage/repo/` package; R-CODE-03
+  overrides the 02 §5 wording). AD-5: the 400-line limit covers
+  `src/**/*.py` only. AD-6: coordination folder path approved. AD-7:
+  profile junction approved.
+- [2026-10-02] [W0] **New files outside the 02 §4 folder tree (RECORDED).**
+  `commands/`, `invariant_plugins.py`, the 7 `agents/` helper modules,
+  `storage/repo/`, `vault/readme.py`, `ingest/invariants.py`,
+  `segment/invariants.py`, and the TUI screen registry were created in W0
+  and are not in the 02 §4 tree; the integrator owns them until the
+  lanes' phases land (D-004/D-013, OWNERSHIP_MAP W0 notes).
+- [2026-10-02] [W0] **CORRECTION: coordination lives at in-repo `coord/`.**
+  The `sots-coord/evidence/I/W0.md` path in the AQ-W0-1 note above is
+  superseded: serial mode (D-013, AD-6's blessed alt path) puts the live
+  folder at `coord/`, so the evidence is at `coord/evidence/I/W0.md`.
+
 ## C. Ideas (not approved)
 _(append here; nothing in this list gets built without author approval)_
 

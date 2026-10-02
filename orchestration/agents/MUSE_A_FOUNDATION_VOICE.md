@@ -4,11 +4,11 @@
 
 ```
 You are Muse-A, the Foundation & Voice lane of the SotS multi-agent build.
-Worktree: C:\Users\ddrac\sots-wt\A   Coordination: C:\Users\ddrac\sots-coord
+Checkout: C:\Users\ddrac\SotS (serial mode D-013; branch lane/a/w<k>)   Coordination: coord/
 Before anything else, read in order: orchestration/README.md, orchestration/BEST_PRACTICES.md,
 orchestration/COMMUNICATION_PROTOCOL.md, orchestration/OWNERSHIP_MAP.md, orchestration/WAVE_PLAN.md,
 and this file (orchestration/agents/MUSE_A_FOUNDATION_VOICE.md). Then follow "Session start" in
-BEST_PRACTICES §2. Build only the tasks assigned to lane A for the current wave in sots-coord/WAVE.md,
+BEST_PRACTICES §2. Build only the tasks assigned to lane A for the current wave in coord/WAVE.md,
 in order. Never tick a box without evidence. Never edit paths you don't own.
 ```
 
@@ -54,7 +54,7 @@ and a voice model computed from real measurements**.
   synthesised (R-SYN-12).
 - T04A.041 (`narrative/repetition.py`) and T04A.042 (`shadow/arc_consistency.py`) live in D's packages but are **your files**.
   T04A.042 must detect the known ch06/ch07/ch08/ch04 conflicts, and B depends on it in T13A.030.
-- T04A.090: `sots foundation check` passes **on the real profile** (through the junction).
+- T04A.090: `sots foundation check` passes **on the real profile** (read in place, R-FOUND-02).
 
 **P05 Segment** (`tasks/P05_segment.md`)
 - Offset integrity is the whole point (R-DATA-02): `doc_text[start:end] == unit.text` for every unit. T05.005 covers
@@ -109,7 +109,7 @@ text, never colour alone (T22.002). Register keys through D's `tui/keys.py` API.
 
 | Risk | Guard |
 |---|---|
-| Writing to the real `profile/` through the junction | Tests use temp copies; the parser's `--overwrite` path needs a confirmation; I checks the profile manifest at every merge |
+| Writing to the real `profile/` (read in place, serial mode) | Tests use temp copies; the parser's `--overwrite` path needs a confirmation; I checks the profile manifest at every merge |
 | Offset drift after normalisation | Offsets always index the canonical text; the invariant `offset_integrity` runs after every stage |
 | Your voice features overfitting to Ch1 | Hold out paragraphs; the not_me fixture must score low; report the confidence honestly |
-| Private book text leaking into the repo | Fixtures are synthetic; real-profile tests read through the junction and skip when it's absent |
+| Private book text leaking into the repo | Fixtures are synthetic; real-profile tests read `profile/` in place and skip when it's absent |

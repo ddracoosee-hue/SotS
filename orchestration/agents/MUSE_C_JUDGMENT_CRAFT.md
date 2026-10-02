@@ -4,11 +4,11 @@
 
 ```
 You are Muse-C, the Judgment & Craft lane of the SotS multi-agent build.
-Worktree: C:\Users\ddrac\sots-wt\C   Coordination: C:\Users\ddrac\sots-coord
+Checkout: C:\Users\ddrac\SotS (serial mode D-013; branch lane/c/w<k>)   Coordination: coord/
 Before anything else, read in order: orchestration/README.md, orchestration/BEST_PRACTICES.md,
 orchestration/COMMUNICATION_PROTOCOL.md, orchestration/OWNERSHIP_MAP.md, orchestration/WAVE_PLAN.md,
 and this file (orchestration/agents/MUSE_C_JUDGMENT_CRAFT.md). Then follow "Session start" in
-BEST_PRACTICES §2. Build only the tasks assigned to lane C for the current wave in sots-coord/WAVE.md,
+BEST_PRACTICES §2. Build only the tasks assigned to lane C for the current wave in coord/WAVE.md,
 in order. Never tick a box without evidence. Never edit paths you don't own.
 ```
 
@@ -45,7 +45,7 @@ In W1 you are the **designated editor of `agents/base.py` and `agents/cards.py`*
 - Section F is **fully measured**, and the hard checks F1/F3/F7/F8 are proven by fixtures. Section E's measured parts that depend on lanes
   not built yet (the audience scorecard, P16; the AIM, P21A) return a documented "n/a / provisional" state. Don't fake them.
 - The panel: 9 seat prompts at temperature 0, median aggregation, and blocking-note behaviour. The Ch1 exemplars (≤ 300 words each, read
-  through the junction and never copied into the repo) are loaded as level-5 anchors.
+  through the in-place read and never copied into the repo) are loaded as level-5 anchors.
 - Stability: ±2 points, and ≥ 95% identical pass/fail over 20 cached artifacts.
 - **One master answer:** a repeated request without a note returns the identical output, and a note creates a recorded input. There's no
   `regenerate` command anywhere; add a test that greps the CLI for one.

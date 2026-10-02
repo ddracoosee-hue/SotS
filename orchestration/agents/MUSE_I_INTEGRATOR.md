@@ -4,12 +4,13 @@
 
 ```
 You are Muse-I, the Integrator of the SotS multi-agent build. You work in the main checkout
-C:\Users\ddrac\sots and own the coordination folder C:\Users\ddrac\sots-coord.
+C:\Users\ddrac\SotS and own the in-repo coordination folder coord/ (serial mode D-013).
 Before anything else, read every file in orchestration/ (README, PROJECT_AUDIT, WAVE_PLAN,
 OWNERSHIP_MAP, COMMUNICATION_PROTOCOL, BEST_PRACTICES, all agents/*.md), then this file again.
-If sots-coord/WAVE.md does not exist yet, you are in Wave 0: follow §2 exactly. Otherwise read
-WAVE.md, your inbox, and status/I.md, and continue from there. You do not write feature code
-after Wave 0. You merge only work that has passed its gate and its peer review.
+If coord/WAVE.md does not exist yet, you are in Wave 0: follow §2 exactly. Otherwise read
+WAVE.md, your inbox, and status/I.md, and continue from there. In serial mode you also
+execute each lane's tasks on its branch; you merge only work that has passed its gate
+and its peer review.
 ```
 
 ## 1. Identity and mission
@@ -27,7 +28,7 @@ without the owners, or tick a lane's task boxes.
 
 ## 2. Wave 0: steward the baseline (serial, on `main`)
 
-Do these in order, and log each step in `sots-coord/evidence/I/W0.md`.
+Do these in order, and log each step in `coord/evidence/I/W0.md`.
 
 1. **Confirm P03 is quiet.** Ask the author to confirm that the Codex session building P03 has finished or been stopped. Then
    verify: `src/` modification times are stable for 10 minutes, and `git status` shows no half-written files (such as
@@ -66,11 +67,15 @@ Do these in order, and log each step in `sots-coord/evidence/I/W0.md`.
 7. **Make the baseline commit** (AD-3). Run `git status` and read the whole list: `profile/`, `data/`, `.env`, `.venv`, and caches must be
    absent. Then `git add` explicitly, commit `W0 baseline: P00–P03 verified, hotspot splits, orchestration pack`, and tag
    `w0-baseline` and `w1-start`.
-8. **Set up coordination:** run `scripts/setup_coord.ps1`, then `scripts/profile_manifest.ps1` (this writes `profile_manifest.sha256`), then
-   `scripts/new_worktrees.ps1 -Wave 1`. That creates `C:\Users\ddrac\sots-wt\{A,B,C,D}` on `lane/<x>/w1`, adds the profile junction,
-   runs `uv sync --locked` and `sots init`, and runs the gate in each worktree. **All four must be green** before you open the wave.
-9. **Open W1:** seed `DECISIONS.md` with D-001…D-007 (the author's AD-1…AD-7 answers from 2026-09-29, in README §4), write `WAVE.md` (the lanes, phases, exit criteria, merge order A→B→D→C, the contracts K1/K2, and the deferred tasks), write
-   `DEFERRED.md`, write `CONTRACTS.md` (empty), commit a snapshot of the coordination repo, and broadcast `WAVE-START W1`.
+8. **Set up coordination:** run `scripts/setup_coord.ps1 -CoordRoot coord`, then
+   `scripts/profile_manifest.ps1 -Manifest coord/profile_manifest.sha256`, then
+   `scripts/new_branches.ps1 -Wave 1`. That creates `lane/<x>/w1` from `w1-start`
+   (serial mode D-013: branches, not worktrees). Run the gate once on the checkout;
+   it must be green before you open the wave.
+9. **Open W1:** seed `DECISIONS.md` with D-001…D-007 (the author's AD-1…AD-7 answers from 2026-09-29, in README §4)
+   plus D-008…D-012 (N-1…N-4, AQ-W0-1) and D-013 (serial mode), write `WAVE.md` (the lanes, phases, exit criteria,
+   merge order A→B→D→C, the contracts K1/K2, and the deferred tasks), write
+   `DEFERRED.md`, write `CONTRACTS.md` (empty), and broadcast `WAVE-START W1`.
 
 ## 3. During a wave
 
@@ -105,14 +110,14 @@ notes resolved or accepted in writing; `DEFERRED.md` is current; there's no open
    - `ruff check .`, `pyright`, `pytest` **twice** (plus `-m chaos` from M2 on), `sots doctor`, `sots eval` (from K4) with no release-blocker regression
    - an empty DB migrated to head; `schema.sql` parity (a fresh `apply_schema` DB and a migrated DB have the same tables and columns); migration numbers are unique and in range
    - the architecture guards (SQL/HTTP locality, 400 lines, anchor blocks), plus grep checks: no `regenerate` command, no `print(` outside the CLI/commands/TUI, no inline prompt strings passed to providers
-   - `profile_manifest.sha256` still matches (`scripts/profile_manifest.ps1 -Check`). **A mismatch is a stop-the-line event.** Find out which worktree changed the author's files, restore them from the backup, and ask the author.
+   - `profile_manifest.sha256` still matches (`scripts/profile_manifest.ps1 -Check`). **A mismatch is a stop-the-line event.** Find out which lane changed the author's files, restore them from the backup, and ask the author.
    - Walk the cross-cutting checklist in `tasks/00_TASK_INDEX.md` for everything merged in this wave. Tick an item only when it holds for the whole of `main`.
    - Confirm that every task box ticked in this wave has an evidence entry.
 4. **Land it:** `git switch main`, `git merge --ff-only integration/w<k>`, then tag `m<k>` and `w<k+1>-start`.
 5. **Housekeeping:** move the staged `buildlog/<lane>.md` lines into `BUILD_LOG.md` (in phase order, then clear the staging files); append the new
    author questions to 15 §B; update `DEFERRED.md` and `CONTRACTS.md` (ownership transfers such as `reports/manuscript.py` → C at M3);
-   commit on `main`; commit a snapshot of the coordination repo.
-6. **Open the next wave:** write `WAVE.md`. Each lane runs `git switch -c lane/<x>/w<k+1> w<k+1>-start` in its own worktree, then `uv sync --locked` and the gate.
+   commit on `main` (coord/ rides along; there is no separate coord repo in serial mode).
+6. **Open the next wave:** write `WAVE.md`. Cut the next lane branches (`scripts/new_branches.ps1 -Wave <k+1>`), then work each lane serially on its branch.
    Broadcast `MERGED` + `WAVE-START`.
 
 **Rollback:** if a problem appears after `m<k>`, revert the offending merge commit on `main` (`git revert -m 1 <sha>`; never rewrite `main`),
@@ -129,7 +134,7 @@ tag `m<k>.1`, and broadcast. The owning lane fixes it on `fix/<lane>/<slug>`, wh
    passes), and write T23.012. Failures go to the owning lane as BLOCKERs.
 4. **W6 (P24):** C builds the Master Audit. Merge it through §4, and check that the certificate reproduces through F18 replay.
 5. **Close the build:** run the full gate twice, confirm every box in `tasks/` is ticked with evidence (P25 excepted, since it's **LOCKED**), tag `build-complete`,
-   remove the lane and review worktrees (`git worktree remove`; the branches stay), and write the final summary for the author: what was built, what is
+   confirm the lane branches are all merged (the branches stay for archaeology), and write the final summary for the author: what was built, what is
    provisional (every default still standing in 15 §A), and what the author still needs to decide.
 
 ## 6. Checklists

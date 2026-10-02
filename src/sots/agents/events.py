@@ -89,6 +89,21 @@ class EventBus:
         return len(self._queues)
 
 
+async def emit_optional(
+    bus: EventBus | None,
+    event_type: str,
+    *,
+    run_id: str | None = None,
+    agent: str | None = None,
+    payload: dict[str, Any] | None = None,
+) -> None:
+    """Emit when a bus is wired; the loop never depends on observers."""
+    if bus is not None:
+        await bus.emit(
+            event_type, run_id=run_id, agent=agent, payload=payload or {}
+        )
+
+
 def default_log_path(data_dir: str | Path) -> Path:
     """The 16 §7 sink: `data/logs/events.jsonl` under the data dir."""
     return Path(data_dir) / "logs" / "events.jsonl"

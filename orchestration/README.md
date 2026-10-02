@@ -2,7 +2,8 @@
 
 Written 2026-09-29 from a full survey of the repository (see `PROJECT_AUDIT.md`).
 It describes how **four Muse lane agents** and **one Muse Integrator** build the remaining
-~540 tasks in parallel, in separate git worktrees, without breaking the blueprint's rules.
+~540 tasks in lane branches (serial mode D-013: one checkout, branches instead of
+worktrees), without breaking the blueprint's rules.
 
 > **Status: APPROVED by the author 2026-09-29 (AD-1…AD-7 all yes; AD-5 = source files only).**
 > Wave 0 may start once the in-progress P03 session has finished or been stopped.
@@ -24,7 +25,7 @@ It describes how **four Muse lane agents** and **one Muse Integrator** build the
 | `agents/MUSE_C_JUDGMENT_CRAFT.md` | Muse-C | Lane plan: grader, MGE, Pass A, Proposal Desk, Pass B + export, Master Audit |
 | `agents/MUSE_D_PIPELINE_MIND.md` | Muse-D | Lane plan: psyche, narrative, shadow, Act I orchestration, Audience Lab, TUI shell, learning, Recheck & Reason |
 | `agents/MUSE_I_INTEGRATOR.md` | Muse-I | Wave 0 steward work, the merge procedure, final integration, P23 coordination |
-| `scripts/*.ps1` | Wave 0 | Coordination folder setup, worktree creation, profile manifest, lane verification |
+| `scripts/*.ps1` | Wave 0 | Coordination folder setup, lane branches (`new_branches.ps1`; `new_worktrees.ps1` kept for parallel sessions), profile manifest, lane verification |
 
 ## 2. The shape of the build
 
@@ -36,7 +37,7 @@ It describes how **four Muse lane agents** and **one Muse Integrator** build the
                                     │ tag w0-baseline
       ┌──────────────┬──────────────┼──────────────┬──────────────┐
   Muse-A          Muse-B         Muse-C          Muse-D
-  (worktree)      (worktree)     (worktree)      (worktree)
+  (branch)        (branch)       (branch)        (branch)
   W1 P04 P04A     W1 P07 P08     W1 P14 P14M     W1 P10 P11
      P05 P06         P09                            P12
       └──────────────┴───── Merge M1 by Muse-I ─────┴──────────────┘
@@ -65,10 +66,10 @@ shows that later waves need earlier waves' code merged anyway.
    was actively writing `src/sots/agents/base.py`. Let it finish P03, or stop it cleanly.
 2. The author answers the decisions in §4.
 3. Start **Muse-I** with `agents/MUSE_I_INTEGRATOR.md` → Wave 0. Muse-I ends Wave 0 by
-   tagging `w0-baseline`, running `scripts/setup_coord.ps1` and `scripts/new_worktrees.ps1`,
-   and broadcasting `WAVE-START W1`.
-4. Start the four lane agents, each in its own worktree folder with its own plan file. Paste
-   the "Launch prompt" block from the top of that file.
+   tagging `w0-baseline`, running `scripts/setup_coord.ps1 -CoordRoot coord` and
+   `scripts/new_branches.ps1 -Wave 1`, and broadcasting `WAVE-START W1`.
+4. Muse-I works the four lanes serially, one lane branch at a time, following each lane's
+   plan file. (Parallel sessions may use `new_worktrees.ps1` instead; see D-013.)
 5. Muse-I watches the merge queue, runs M1–M4, and broadcasts each next wave.
 6. After M4, run W5 (P23) and then W6 (P24).
 
@@ -80,7 +81,7 @@ remain the source of truth.
 ## 4. Author decisions (answered 2026-09-29)
 
 **Answers:** AD-1 yes · AD-2 yes · AD-3 yes · AD-4 yes · AD-5 **`src/**/*.py` only** (tests and `.sql` are exempt) ·
-AD-6 yes · AD-7 yes. Muse-I records these as D-001…D-007 in `sots-coord/DECISIONS.md` in Wave 0 and appends
+AD-6 yes · AD-7 yes. Muse-I records these as D-001…D-007 in `coord/DECISIONS.md` in Wave 0 and appends
 them to `blueprint/15_OPEN_ITEMS.md §B`.
 
 | # | Decision | Recommendation | If "no" |

@@ -58,12 +58,20 @@ def find_sql_violations(src_root: Path = SRC_ROOT) -> list[str]:
 
 
 def find_http_violations(src_root: Path = SRC_ROOT) -> list[str]:
-    """Files using HTTP/SDK markers outside providers/ and agents/tools/."""
+    """Files using HTTP/SDK markers outside the allowed fetch dirs.
+
+    N-2 (W0): research/fetchers + research/search join providers/ and
+    agents/tools/ as the only places that may touch the network.
+    """
     violations: list[str] = []
     for path in _iter_py_files(src_root):
         if _is_under(path, src_root, "providers"):
             continue
         if _is_under(path, src_root, "agents", "tools"):
+            continue
+        if _is_under(path, src_root, "research", "fetchers"):
+            continue
+        if _is_under(path, src_root, "research", "search"):
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -72,8 +80,9 @@ def find_http_violations(src_root: Path = SRC_ROOT) -> list[str]:
         for marker in HTTP_MARKERS:
             if marker in text:
                 violations.append(
-                    f"{path}: HTTP/SDK marker {marker!r}"
-                    " outside providers/ and agents/tools/"
+                    f"{path}: HTTP/SDK marker {marker!r} outside the allowed"
+                    " fetch dirs (providers/, agents/tools/, research/fetchers/,"
+                    " research/search/)"
                 )
                 break
     return violations
@@ -82,6 +91,16 @@ def find_http_violations(src_root: Path = SRC_ROOT) -> list[str]:
 def test_no_sql_outside_storage() -> None:
     violations = find_sql_violations()
     assert violations == [], "\n".join(violations)
+
+
+def test_no_source_file_over_400_lines() -> None:
+    """R-CODE-03 (AD-5): src/**/*.py only; tests and fixtures exempt."""
+    offenders = [
+        f"{path.relative_to(SRC_ROOT)} ({len(path.read_text(encoding='utf-8').splitlines())})"
+        for path in _iter_py_files(SRC_ROOT)
+        if len(path.read_text(encoding="utf-8").splitlines()) > 400
+    ]
+    assert offenders == []
 
 
 def test_no_http_or_sdk_calls_outside_allowed_dirs() -> None:
@@ -109,6 +128,10 @@ def test_guard_catches_planted_violations(tmp_path: Path) -> None:
         "import httpx\n", encoding="utf-8"
     )
     (src / "sots" / "agents" / "tools" / "ok.py").write_text(
+        "import httpx\n", encoding="utf-8"
+    )
+    (src / "sots" / "research" / "fetchers").mkdir(parents=True)
+    (src / "sots" / "research" / "fetchers" / "ok.py").write_text(
         "import httpx\n", encoding="utf-8"
     )
 

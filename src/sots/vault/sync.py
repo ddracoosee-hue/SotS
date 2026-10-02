@@ -23,7 +23,7 @@ from sots.storage import db as storage_db
 from sots.storage import repo as storage_repo
 from sots.storage.files import atomic_write_text, ensure_dir
 from sots.vault import digest as vault_digest
-from sots.vault import notes, paths
+from sots.vault import notes, paths, readme
 from sots.vault.dashboard import build_dashboard_note, build_reading_order_note
 from sots.vault.writer import (
     DEFAULT_AUTHOR_HEADING,
@@ -240,7 +240,7 @@ def init_vault(vault_root: str | Path) -> VaultCounts:
             continue
         ensure_dir(target)
         counts["created"] += 1
-    _tally(counts, write_static(root, paths.VAULT_README, notes.build_vault_readme()))
+    _tally(counts, write_static(root, paths.VAULT_README, readme.build_vault_readme()))
     _tally(counts, write_static(root, paths.OBSIDIAN_APP_JSON, OBSIDIAN_APP_JSON_CONTENT))
     return VaultCounts(**counts)
 

@@ -1,0 +1,3 @@
+* text=auto eol=lf
+.venv/ linguist-generated=true
+uv.lock linguist-generated=true

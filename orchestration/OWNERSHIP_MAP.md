@@ -10,15 +10,26 @@ start with `config/`, `prompts/`, `tests/`, `eval/`, `blueprint/`, `tasks/`, or 
 
 | Owner | Owns (create and edit freely) |
 |---|---|
-| **A** Foundation & Voice | `profile/`, `ingest/`, `foundation/`, `segment/`, `classify/`, `voice/`, `synthesis/`; `models/foundation.py`, `models/voice.py`, `models/synthesis.py`; `acts/act2d.py`; `narrative/repetition.py`; `shadow/arc_consistency.py`; `reports/sections/dictation_coverage.py`, `reports/voice_profile.py`; `prompts/{foundation,segment,summarize,classify,synthesis,voice}/`; `config/agents/synthesis/`; `eval/synthesis_gold/` |
+| **A** Foundation & Voice | `profile/`, `ingest/`, `foundation/`, `segment/`, `classify/`, `voice/`, `synthesis/`; `models/foundation.py`, `models/voice.py`, `models/synthesis.py`; `acts/act2d.py`; `narrative/repetition.py`; `narrative/{messages,ledger,drift,flow,fingerprint,voice,narrative_stage}.py` (P11, from D per N-3); `shadow/arc_consistency.py`; `reports/sections/dictation_coverage.py`, `reports/voice_profile.py`, `reports/sections/narrative.py` (P11, from D per N-3); `prompts/{foundation,segment,summarize,classify,synthesis,voice}/`, `prompts/narrative/map_messages.v1.md` (P11, from D per N-3); `config/agents/synthesis/`; `eval/synthesis_gold/` |
 | **B** Truth, Evidence & Law | `research/` (incl. `fetchers/`, `search/`), `verify/`, `media/`, `brief_audit/`, `discovery/`, `expand/`, `legal/` (except `legal/delta.py`); `acts/act0.py`, `acts/act4.py`, `acts/act5.py` (producer part); `reports/sections/{claims,media,legal}.py`, `reports/brief_audit.py`; `prompts/{research,verify,fact_check,media,expand,legal}/`; `config/agents/{fact_check,media,discovery,legal_chamber}/`; `config/source_tiers.yaml`, `config/legal.yaml`; `eval/gold/brief_anchors_gold.yaml`, `eval/legal_gold/` |
 | **C** Judgment & Craft | `grader/`, `mge/`, `rewrite/`, `proposals/`, `audit/`; `models/mge.py`, `models/section.py`; `acts/act2.py`, `acts/act6.py`, `acts/act5.py` (desk part, from W3); `legal/delta.py` (W4); `reports/manuscript.py` (from W4), `reports/master_audit.py`, `reports/sections/proposals.py`; `config/grader.yaml`, `config/mge.yaml`, `config/formatting.yaml`; `agents/tools/languagetool.py` (from W2); `prompts/{grader,mge,rewrite,proposals,audit}/`; `config/agents/{quality_gate,rewrite_pass_a,rewrite_pass_b,proposal_desk}/`; `eval/{grader_gold,rewrite_gold,proposal_gold,mge_calibration,master_battery}/` |
-| **D** Pipeline & Mind | `psyche/`, `narrative/` (except `repetition.py`), `shadow/` (except `arc_consistency.py`), `pipeline/`, `audience/`, `learning/`, `reason/`, `tui/` (shell + D screens); `acts/chapter_state.py`, `acts/act1.py`, `acts/act3.py`; `models/reason.py`; `reports/markdown.py`, `reports/export.py`, `reports/sections/{psyche,narrative,shadow,audience}.py`; `eval/run_eval.py` (the runner; others register metrics); `prompts/{psyche,narrative,shadow,audience,learning,reason}/`; `config/agents/{psyche,narrative,shadow,audience_lab,learning,reason}/`; `config/personas.yaml`, `config/audience/`, `config/rubrics.yaml`, `config/system_goals.yaml`, `config/safety.yaml` |
+| **D** Pipeline & Mind | `psyche/`, `narrative/` (except `repetition.py` and the 7 P11 files owned by A), `shadow/` (except `arc_consistency.py`), `pipeline/`, `audience/`, `learning/`, `reason/`, `tui/` (shell + D screens); `acts/chapter_state.py`, `acts/act1.py`, `acts/act3.py`; `models/reason.py`; `reports/markdown.py`, `reports/export.py`, `reports/sections/{psyche,shadow,audience}.py`; `eval/run_eval.py` (the runner; others register metrics); `prompts/{psyche,narrative,shadow,audience,learning,reason}/` (except `narrative/map_messages.v1.md`, owned by A); `config/agents/{psyche,narrative,shadow,audience_lab,learning,reason}/`; `config/personas.yaml`, `config/audience/`, `config/rubrics.yaml`, `config/system_goals.yaml`, `config/safety.yaml` |
 | **I** Integrator (shared infrastructure) | `pyproject.toml`, `uv.lock`, `.gitignore`, `.env.example`, `.python-version`; `BUILD_LOG.md`; `blueprint/15_OPEN_ITEMS.md` (append only); `tasks/00_TASK_INDEX.md` (cross-cutting boxes); `cli.py` (root wiring); `config.py`; `config/settings.yaml`, `config/routing.yaml`, `config/teams.yaml`; `storage/` (the core, `schema.sql`, `migrations/`); `models/` (every module that existed at `w0-baseline`); `providers/`; `agents/` runtime (`base.py`, `cards.py`, `events.py`, `registry.py`, `grading.py`, `failsafes/`, `tools/`); `errors.py`, `logging_setup.py`; `tests/conftest.py`, and every test file that existed at `w0-baseline`; `vault/`; `orchestration/` |
-| **Author only** | `profile/**` (R-FOUND-02; lanes read it through the junction, and changes go through Proposals), `MUSE_START_HERE.md` (OI-04), `blueprint/**` except the 15 append (R-SCOPE-04), `supplements/`, `.env` |
+| **Author only** | `profile/**` (R-FOUND-02; lanes read it in place, serial mode D-013, and changes go through Proposals), `MUSE_START_HERE.md` (OI-04), `blueprint/**` except the 15 append (R-SCOPE-04), `supplements/`, `.env` |
 
 Each lane also owns the tests and fixtures it creates (§5) and its own lines in `tasks/<its phase>.md`
 (checkbox edits only, R-SCOPE-04).
+
+**W0 notes.** N-3: Lane A owns `voice/` end to end (row above); only the
+integrator touched shared paths in W0, and `voice/` needed no W0 changes, so
+Lane A receives it untouched at `w0-baseline`. W0 also created `commands/`,
+`agents/failsafes/invariant_plugins.py`, the `agents/` helper modules
+(`context`, `scratchpad`, `agent_state`, `agent_prompts`, `tool_calls`,
+`step_calls`, `run_records`), the `storage/repo/` package, `vault/readme.py`,
+`ingest/invariants.py`, `segment/invariants.py`, and the `tui/` screen
+registry — none of which are in the 02 §4 folder tree yet; the integrator owns
+them until the lanes' phases land (recorded as a W0 exception in the step-6
+evidence).
 
 ## 2. Files shared across lanes (from the task-to-file cross-reference)
 
@@ -45,8 +56,8 @@ Each lane also owns the tests and fixtures it creates (§5) and its own lines in
 | `config/settings.yaml`, `config.py` | P00 (I), T14A.003 (A), and any lane that adds settings | Anchor blocks in both files (a lane's YAML keys + its `Settings` sub-model fields). Changing an existing key is a CR. |
 | `config/routing.yaml`, `config/teams.yaml` | every lane that adds LLM tasks or teams | Anchor blocks. Temperatures follow R-LLM-06 and are reviewed at merge. |
 | `config/personas.yaml` | P00 (I), T16.004 (D) | D owns it from W3. |
-| `BUILD_LOG.md` | every phase close | Lanes **never** edit it. They write `sots-coord/buildlog/<lane>.md`, and I moves the lines in at the merge. |
-| `blueprint/15_OPEN_ITEMS.md` | anyone with a question | Lanes **never** edit it. Questions go to `sots-coord/AUTHOR_QUESTIONS.md`, and I appends them to 15 §B at the merge. |
+| `BUILD_LOG.md` | every phase close | Lanes **never** edit it. They write `coord/buildlog/<lane>.md`, and I moves the lines in at the merge. |
+| `blueprint/15_OPEN_ITEMS.md` | anyone with a question | Lanes **never** edit it. Questions go to `coord/author_questions/`, and I appends them to 15 §B at the merge. |
 | `README.md` / `MUSE_START_HERE.md` | T21A.042 (D) | The author note is **already present** in both files, so T21A.042 is verify-only. D checks it and records the evidence. No edit. |
 | `models/*` (existing modules) | any lane that needs a new field | Additive, optional fields only, through a **contract CR**. New model modules for a lane's own phase (for example `models/voice.py`) belong to that lane. |
 | `storage/schema.sql` + `migrations/` | any lane that adds tables | See §4. |

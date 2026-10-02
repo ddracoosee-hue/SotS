@@ -1,5 +1,9 @@
 # SotS environment handoff
 
+> SUPERSEDED 2026-10-02 (W0): this handoff described the pre-P00 environment.
+> P00–P06 + P04A are built and verified; the current plan is
+> `orchestration/NEXT_STEPS.md`. Kept for archaeology.
+
 Verified 2026-09-29. Ready for Muse to begin P00 implementation.
 
 ## Start here

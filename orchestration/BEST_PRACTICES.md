@@ -25,8 +25,8 @@ If you find a conflict, record it (`COMMUNICATION_PROTOCOL.md §7`). Don't resol
 ## 2. Session start (every time, including after a context reset)
 
 1. Read `orchestration/README.md` §2 and your own `agents/MUSE_<X>.md`.
-2. Read `sots-coord/WAVE.md`, your inbox, `broadcast/`, and your `status/<X>.md` handoff.
-3. Run `git status` and `git log --oneline -5` in your worktree, and confirm you're on your lane branch.
+2. Read `coord/WAVE.md`, your inbox, `broadcast/`, and your `status/<X>.md` handoff.
+3. Run `git status` and `git log --oneline -5` in the checkout, and confirm you're on your lane branch.
 4. Run the gate (`scripts/verify_lane.ps1`) before you change anything. If it's red and you didn't
    cause it, stop and post a BLOCKER to I. Don't build on a red base.
 5. Read the blueprint sections your next task cites **in full** before you write code. Also read the
@@ -46,7 +46,7 @@ If you find a conflict, record it (`COMMUNICATION_PROTOCOL.md §7`). Don't resol
 - [ ] `ruff check` on the touched paths, `pyright`, and the relevant tests are all green.
 - [ ] An evidence entry is appended, and the commit is made on your lane branch.
 
-**Evidence entry** (`sots-coord/evidence/<lane>/<phase>.md`, append only):
+**Evidence entry** (`coord/evidence/<lane>/<phase>.md`, append only):
 
 ```markdown
 ### T08.036 · 2026-10-01 15:40 · commit 4be91c0
@@ -64,7 +64,7 @@ notes: fiction → CONTEXT is applied before the other caps (06 §5.1)
 2. Walk every item in the cross-cutting checklist in `tasks/00_TASK_INDEX.md` for the code this phase added,
    and record the result per item in the evidence log. (Only I ticks those boxes, at the merge.)
 3. Check that every task in the phase has an evidence entry. Deferred tasks are listed in `DEFERRED.md`.
-4. Stage the build-log line in `sots-coord/buildlog/<lane>.md` using the existing `BUILD_LOG.md` format.
+4. Stage the build-log line in `coord/buildlog/<lane>.md` using the existing `BUILD_LOG.md` format.
 5. Post a READY-FOR-MERGE ticket in `merge_queue/<lane>_<phase>.md` with: the branch, the head sha, the gate output
    summary, the new migrations, the anchor blocks touched, the CRs consumed or produced, the deferred tasks, and known limitations.
 6. Keep working on your next phase while the ticket waits, but don't rewrite the history the ticket points to.
@@ -82,7 +82,10 @@ No phase merges on its author's word alone. Every READY ticket gets an independe
 | D | C | C's MGE Section E, Pass B, and P24 consume psyche, audience, and orchestration |
 
 The reviewer follows this procedure:
-1. `git worktree add --detach C:\Users\ddrac\sots-wt\review-<lane>-<phase> <sha>`, then add the profile junction and run `uv sync --locked` there.
+1. No checkout needed: review the branch diff directly (`git diff w<k>-start..<sha>`,
+   plus `git show <sha>:<path>` for full files). The lane's gate evidence is in its
+   READY ticket; I re-runs the full gate plus adversarial probes on the code at merge time
+   (serial mode D-013; parallel sessions may use a review worktree instead).
 2. Run the full gate. Rerun the "Done when" check for **every** task that enforces a hard rule (R-TRUTH, R-GATE, R-AUD,
    R-LEGAL, R-MGE, R-PSY, R-SYN, R-PROV, R-EXP) and for at least 30% of the rest, picked at random and listed.
 3. Read the diff (`git diff w<k>-start..<sha> -- <lane paths>`) looking for: weakened or deleted tests, `skip`/`xfail`,
@@ -92,7 +95,6 @@ The reviewer follows this procedure:
    an echo of the prompt) and confirm the code rejects it.
 5. Write `reviews/REV-<lane>-<phase>.md` with the verdict **PASS**, **PASS-WITH-NOTES**, or **FAIL**, and a line per finding
    (the file, the line, what's wrong, and the evidence). Send REVIEW-RESULT to the producer and to I.
-6. Remove the review worktree afterwards (`git worktree remove`).
 
 A FAIL goes back to the producer. The fix happens on the same lane branch, and the reviewer re-checks only the findings.
 Reviews come before your own next task. Keep them rigorous but proportionate, and don't redesign the other lane's code.
@@ -106,8 +108,9 @@ Reviews come before your own next task. Keep them rigorous but proportionate, an
 - **Determinism:** tests use FakeProvider scripts, respx mocks, an injectable clock, and seeded randomness. There's no
   network access, no sleeping, and no dependence on the order in which tests run.
 - **Use the real foundation where the task says to** (for example T04A.090 "passes on the real profile" or the Ch1 fixtures).
-  The foundation comes through the read-only junction. Don't copy profile text into the repo (it's private,
-  R-DATA-04). Tests that need it skip cleanly with a clear message when `profile/` is absent.
+  `profile/` is read in place, read-only by rule (R-FOUND-02; serial mode D-013 has no junctions).
+  Don't copy profile text into the repo (it's private, R-DATA-04). Tests that need it skip cleanly
+  with a clear message when `profile/` is absent.
 - **Resumability** (R-CODE-06): every stage has a kill-and-resume test that proves nothing was redone (count the calls).
 - **Contracts over internals:** import another lane's code only through the functions and models listed in
   `contracts/CONTRACTS.md` or its package's public `__init__`. Don't reach into another lane's private helpers.
@@ -122,7 +125,7 @@ Reviews come before your own next task. Keep them rigorous but proportionate, an
   followed by the attribution trailer your harness requires.
 - Stage explicit paths (`git add src/sots/verify/rules.py tests/unit/test_verify_rules_caps.py`). Check `git status`
   before every commit. Never commit `data/`, `profile/`, `.env`, `.venv/`, or caches.
-- Never `push --force`, `reset --hard` on a shared branch, rebase `main`, or touch another worktree's folder.
+- Never `push --force`, `reset --hard` on a shared branch, rebase `main`, or commit on another lane's branch.
 - Merge `main` into your branch only when a SYNC is broadcast or a wave starts. Never merge another lane's branch directly.
 - Line endings: W0 adds `.gitattributes` (`* text=auto eol=lf`), so agents on different tools don't produce
   CRLF churn. Don't renormalise files you don't own.
@@ -141,10 +144,11 @@ Reviews come before your own next task. Keep them rigorous but proportionate, an
 
 - Use `uv run …` for every project command. Bare `py` resolves to Python 3.14, and this project is 3.12 only.
 - PowerShell 5.1 has no `&&`. Use `cmd; if ($?) { next }`. Pass `-Encoding utf8` when writing files.
-- Each worktree has its own `.venv` (created with `uv sync --locked`) and its own `data/` (created with `uv run sots init`).
-  Never point two worktrees at the same `data/sots.db`, because SQLite WAL files and locks will collide.
-- `profile` in a worktree is a **junction** to the main checkout's `profile/`. `Remove-Item` on the junction deletes the
-  link, but a recursive delete through it deletes the author's files. Never run a recursive delete on `profile`.
+- Serial mode (D-013) uses one checkout: one `.venv` (`uv sync --locked`) and one `data/`
+  (`uv run sots init`, already done on `main`). Lane branches share them; tests use temp
+  databases, so lanes never collide.
+- `profile/` is read in place and is **never written** except through the author-approved
+  flows (brief parse CLI, interview CLI). Never run a recursive delete on `profile`.
 - ENVIRONMENT_READY.md reports that the Codex sandbox runner sometimes times out while connecting its pipe. If commands fail
   before they start, report it in `status/` and ask I; don't retry in a loop.
 

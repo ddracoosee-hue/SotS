@@ -14,7 +14,7 @@ this file wins **only for the points marked "changed"**. Everything else in them
 | P07 | **Partial and unlogged.** A session stopped at 2026-09-29 15:01 and nothing has changed since. Present: `research/{tiers,bm25,passages}.py`, `research/search/`, `research/fetchers/` (base, cache, web, courtlistener, openalex, crossref, google_factcheck, tmdb, openlibrary, musicbrainz, supplements, registry). Missing: `fetchers/wikipedia.py` at least. 0/24 boxes checked. |
 | Gate | `pytest`: **549 passed, 1 failed**. The failure is `test_no_http_or_sdk_calls_outside_allowed_dirs` on `research/fetchers/base.py` (see decision N-2). `sots doctor` exits 0. |
 | R-CODE-03 (AD-5) | Over 400 lines in `src/`: `storage/repo.py` 1,812 · `cli.py` 954 · `agents/base.py` 678 · `vault/notes.py` 403. |
-| Coordination | `C:\Users\ddrac\sots-coord` does not exist. Wave 0 never ran. |
+| Coordination | `coord/` created in-repo in W0 (serial mode D-013; AD-6's blessed alt path). |
 
 **What drifted from the plan:** Wave 0 was supposed to run right after P03. Instead the solo session
 kept building P04 → P04A → P05 → P06, which is **all of Lane A's Wave 1 work**, and then started
@@ -40,7 +40,7 @@ Original questions, kept for the record:
 ## 2. Wave 0 (changed)
 
 Follow `agents/MUSE_I_INTEGRATOR.md §2` with these changes. Log every step in
-`sots-coord/evidence/I/W0.md` (create `sots-coord` first via `scripts/setup_coord.ps1` if needed for logging).
+`coord/evidence/I/W0.md` (create `coord/` first via `scripts/setup_coord.ps1 -CoordRoot coord` if needed for logging).
 
 1. **Quiet check.** Ask the author to confirm no Codex or other agent session is open on this repo.
    `src/` has been unchanged since 2026-09-29 15:01, so the 10-minute stability check should pass.
@@ -70,10 +70,11 @@ Follow `agents/MUSE_I_INTEGRATOR.md §2` with these changes. Log every step in
 8. **Baseline commit** *(changed: this is the second commit, not the first)*.
    `W0 baseline: P00–P06 verified, hotspot splits, orchestration pack`. Read `git status` in full
    first; `profile/`, `data/`, `.env`, `.venv`, and caches must be absent. Tag `w0-baseline` and `w1-start`.
-9. **Coordination and worktrees.** Unchanged: `setup_coord.ps1`, `profile_manifest.ps1`,
-   `new_worktrees.ps1 -Wave 1`. All four worktrees must be green.
-10. **Open W1** with the revised table in §3. Seed `DECISIONS.md` with D-001…D-007 (AD-1…AD-7) plus
-    D-008…D-012 for the author's answers to N-1…N-4 and AQ-W0-1.
+9. **Coordination and branches** *(changed: serial mode D-013, no worktrees)*.
+   `setup_coord.ps1 -CoordRoot coord`, `profile_manifest.ps1 -Manifest coord/profile_manifest.sha256`,
+   `new_branches.ps1 -Wave 1`. The gate must be green before opening the wave.
+10. **Open W1** with the revised table in §3. Seed `DECISIONS.md` with D-001…D-007 (AD-1…AD-7),
+    D-008…D-012 for the author's answers to N-1…N-4 and AQ-W0-1, and D-013 (serial mode).
 
 **Exit:** tag `w0-baseline`, gate green, `WAVE-START W1` broadcast.
 

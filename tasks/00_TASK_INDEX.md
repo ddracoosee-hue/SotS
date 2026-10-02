@@ -1,5 +1,18 @@
 # MASTER TASK INDEX: 620 tasks across 31 build phases (+ P25 locked)
 
+## §0. Author decisions (compact; full text in coord/DECISIONS.md)
+
+- AD-1: parallel lanes approved (R-SCOPE-03 exception; order inside lanes, deps gate on merges).
+- AD-2: deferred-by-plan tasks allowed (DEFERRED.md).
+- AD-3: baseline commit approved (profile/, data/ stay gitignored).
+- AD-4: W0 hotspot splits approved (storage/repo/ package; R-CODE-03 overrides 02 §5).
+- AD-5: 400-line limit covers src/**/*.py only.
+- AD-6: coordination folder path approved (live: in-repo coord/ per D-013).
+- AD-7: profile junction approved (serial mode D-013 reads profile/ in place instead).
+- N-1: parallel plan kept. N-2: HTTP-guard allowlist += research/{fetchers,search}.
+- N-3: P11 moved D→A. N-4: Lane B verifies + finishes P07. AQ-W0-1: start from the beginning.
+- D-013: serial in-repo execution (branches, one checkout; lane structure unchanged).
+
 ## How to read a task
 
 ```

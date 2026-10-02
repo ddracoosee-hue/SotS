@@ -1,17 +1,19 @@
 # Communication protocol
 
-The agents never share a working tree, so they talk only through the **coordination folder**. Files
+The agents never share a branch, so they talk only through the **coordination folder**. Files
 are the source of truth. Any live channel, such as Claude Code's `SendMessage`, is only a nudge that
 says "check your inbox". If something is decided anywhere else, it hasn't been decided until a file
 here records it.
 
 ## 1. The coordination folder
 
-Default location: `C:\Users\ddrac\sots-coord\` (AD-6). It sits outside every worktree and has its own
-git repo. `scripts/setup_coord.ps1` creates it.
+Location: in-repo `coord/` (serial mode D-013; AD-6's blessed alt path to
+`C:\Users\ddrac\sots-coord\`). Tracked by `main`, so history comes from the repo
+itself instead of a nested git repo. `scripts/setup_coord.ps1 -CoordRoot coord`
+creates it. (Parallel sessions may still use an outside-repo folder via `-CoordRoot`.)
 
 ```
-sots-coord/
+coord/
   WAVE.md                    current wave, its lanes, exit criteria, merge order        (writer: I)
   status/<A|B|C|D|I>.md      one status card per agent                                  (writer: that agent)
   inbox/<A|B|C|D|I>/         messages to one agent; move each to inbox/<X>/done/ once handled
@@ -77,7 +79,7 @@ requires_ack: true
 Status card format (`status/<X>.md`, overwritten each time):
 
 ```markdown
-agent: Muse-B · worktree: C:\Users\ddrac\sots-wt\B · branch: lane/b/w1
+agent: Muse-B · checkout: C:\Users\ddrac\SotS (serial mode D-013) · branch: lane/b/w1
 wave: W1 · phase: P08 · task: T08.030 (in progress)
 updated: 2026-10-01 14:22
 last green: 7c1e2ab (ruff ✓ pyright ✓ pytest 512 ✓)

@@ -1,7 +1,9 @@
 <#
 .SYNOPSIS
-  The standard gate for a worktree: ruff, pyright, pytest (optionally twice and chaos), sots doctor,
-  and the profile junction check. Exit code 1 if anything fails. Paste the summary into evidence logs.
+  The standard gate for a lane branch (serial mode D-013) or worktree: ruff, pyright,
+  pytest (optionally twice and chaos), sots doctor, and the profile check
+  (junction in a worktree, read-in-place in the main checkout).
+  Exit code 1 if anything fails. Paste the summary into evidence logs.
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File orchestration\scripts\verify_lane.ps1 -Twice
 #>
@@ -32,13 +34,15 @@ try {
     if ($Chaos) { Invoke-Step "pytest -m chaos" { uv run pytest -q -m chaos } -OkCodes @(0, 5) }
     Invoke-Step "sots doctor" { uv run sots doctor }
 
-    $junctionOk = $false
+    $profileOk = $false
     $p = Join-Path $Root "profile"
     if (Test-Path -LiteralPath $p) {
         $item = Get-Item -LiteralPath $p -Force
-        $junctionOk = [bool]($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -or ($Root.TrimEnd('\') -ieq "C:\Users\ddrac\sots")
+        $isJunction = [bool]($item.Attributes -band [IO.FileAttributes]::ReparsePoint)
+        $isMainCheckout = Test-Path -LiteralPath (Join-Path $Root ".git") -PathType Container
+        $profileOk = $isJunction -or $isMainCheckout
     }
-    $results += [pscustomobject]@{ Step = "profile junction"; Exit = $(if ($junctionOk) { 0 } else { 1 }); Seconds = 0; Result = $(if ($junctionOk) { "PASS" } else { "FAIL" }) }
+    $results += [pscustomobject]@{ Step = "profile check"; Exit = $(if ($profileOk) { 0 } else { 1 }); Seconds = 0; Result = $(if ($profileOk) { "PASS" } else { "FAIL" }) }
 } finally {
     Pop-Location
 }
