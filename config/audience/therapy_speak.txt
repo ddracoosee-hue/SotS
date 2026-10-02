@@ -1,0 +1,46 @@
+# Starter therapy-speak list for the Phrasing Analyst (20 §3). Clinical terms used
+# loosely in prose; each hit must be supported or it counts as misuse. One per line.
+toxic
+gaslight
+gaslighting
+trauma response
+triggered
+narcissist
+narcissistic
+love bombing
+lovebombing
+boundaries (as a cudgel)
+holding space
+inner child
+shadow work
+processing (feelings)
+trauma dump
+trauma dumping
+emotional labor
+codependent
+attachment style
+anxious attachment
+avoidant attachment
+secure attachment
+dissociating
+dissociation
+somatic
+nervous system regulation
+regulated
+dysregulated
+self-care sunday
+healing journey
+doing the work
+protect your peace
+cut off (as therapy advice)
+no contact (as casual advice)
+red flag (armchair diagnosis)
+depression room
+adhd paralysis
+executive dysfunction (colloquial)
+intrusive thoughts (colloquial)
+ocd (as adjective)
+bipolar weather
+psychotic (as insult)
+schizo (as slang)
+manic (colloquial)

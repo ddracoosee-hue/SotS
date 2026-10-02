@@ -1,0 +1,20 @@
+# Technique Playbook tags (20 §7). Each audience edit is tagged with the techniques
+# it used; after re-testing, success = targeted metric improved ≥ 0.5 with no
+# primary regression. LR-02: Brief Writer suggestions use only techniques with
+# ≥ 10 trials and a posterior mean success ≥ 0.6.
+
+techniques:
+  - id: story_before_lesson
+    description: "Lead with the lived story; let the lesson arrive after the reader feels it (21 §2.6)."
+  - id: affirm_before_challenge
+    description: "Affirm the reader's effort or dignity before challenging a belief."
+  - id: offer_not_order
+    description: "Frame guidance as options (might/could/consider), never commands."
+  - id: concrete_first_step
+    description: "End an abstract lesson with one small, doable first action."
+  - id: callback_ending
+    description: "Close a section by echoing its opening image or line."
+  - id: verified_surprise_fact
+    description: "Place one verified, genuinely surprising fact where attention sags."
+  - id: author_vulnerability_first
+    description: "The author admits their own failure before asking honesty of the reader."

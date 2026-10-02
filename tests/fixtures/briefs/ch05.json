@@ -1,0 +1,88 @@
+{
+  "title": "The Comparison Theater",
+  "subtitle": "Envy is a curriculum",
+  "phase_claimed": "P2",
+  "core_theme": "Comparison teaches; contentment is practiced.",
+  "blocks": [
+    {
+      "number": 1,
+      "name": "hook_targeting",
+      "structural_purpose": "Open on the scroll of envy.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": ["ch05.A04"],
+      "dictation_prompts": ["Describe the last account that stung."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 2,
+      "name": "paradigm_shift",
+      "structural_purpose": "Flip envy to instruction.",
+      "old_belief": "Envy means I am behind.",
+      "new_belief": "Envy points at what I value.",
+      "anchor_refs": [
+        "J. Cole 'Love Yourz': no such thing as a life better than yours"
+      ],
+      "dictation_prompts": ["What does your envy point at?"],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 3,
+      "name": "core_mechanism",
+      "structural_purpose": "Teach the comparison loop.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["Map one comparison loop start to finish."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 4,
+      "name": "case_study",
+      "structural_purpose": "A life that quit the theater.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": ["A cookbook recipe for sourdough xyzzy"],
+      "dictation_prompts": ["Tell the quitting story."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 5,
+      "name": "actionable_implementation",
+      "structural_purpose": "Three protocols for the week.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["Teach the mute ritual."],
+      "protocols": [
+        {"name": "Mute ritual", "steps": "Mute ten envy accounts today."},
+        {"name": "Gratitude ledger", "steps": "Three entries nightly."},
+        {"name": "Creator fast", "steps": "One week making, not scrolling."}
+      ],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 6,
+      "name": "integration_reflection",
+      "structural_purpose": "Close with reflection.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["What did envy teach this week?"],
+      "protocols": [],
+      "journaling_prompts": ["Who did you envy?", "What did it point at?", "What did you mute?"],
+      "tables": []
+    }
+  ],
+  "voice_rules": ["Name the wound before the wisdom."],
+  "appendix_system_prompt": "APPENDIX-SENTINEL-ch05: confess first, then teach."
+}

@@ -1,0 +1,88 @@
+{
+  "title": "The Modern Day",
+  "subtitle": "Attention is captured by design",
+  "phase_claimed": "P1",
+  "core_theme": "Your attention is harvested; noticing is the first freedom.",
+  "blocks": [
+    {
+      "number": 1,
+      "name": "hook_targeting",
+      "structural_purpose": "Name the reader and the theft.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": ["ch01.A05"],
+      "dictation_prompts": ["Describe a morning the feed ate."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 2,
+      "name": "paradigm_shift",
+      "structural_purpose": "Flip distraction to design.",
+      "old_belief": "I lack discipline.",
+      "new_belief": "The machine is designed to capture me.",
+      "anchor_refs": [
+        "Incentive salience (Berridge and Robinson): wanting versus liking; feeds maximize wanting"
+      ],
+      "dictation_prompts": ["When did you last blame yourself for the feed?"],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 3,
+      "name": "core_mechanism",
+      "structural_purpose": "Teach wanting versus liking.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": ["A study about purple llamas that appears in no registry xyzzy"],
+      "dictation_prompts": ["Explain wanting versus liking simply."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 4,
+      "name": "case_study",
+      "structural_purpose": "Show the mechanism in a life.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["Tell the story of one reclaimed evening."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 5,
+      "name": "actionable_implementation",
+      "structural_purpose": "Three protocols for the week.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["Walk through protocol one step by step."],
+      "protocols": [
+        {"name": "Morning gates", "steps": "Phone sleeps outside; paper first."},
+        {"name": "Feed audit", "steps": "List every feed; keep two."},
+        {"name": "Sabbath hour", "steps": "One hour weekly fully offline."}
+      ],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 6,
+      "name": "integration_reflection",
+      "structural_purpose": "Close with reflection.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["What changed in how you see your mornings?"],
+      "protocols": [],
+      "journaling_prompts": ["What did the feed take today?", "What did you protect?", "What is one gate for tomorrow?"],
+      "tables": []
+    }
+  ],
+  "voice_rules": ["Short sentences. No jargon without a gloss."],
+  "appendix_system_prompt": "APPENDIX-SENTINEL-ch01: write warm and direct, second person."
+}

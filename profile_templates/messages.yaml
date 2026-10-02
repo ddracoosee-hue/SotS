@@ -1,0 +1,15 @@
+# Core messages template (copied to profile/messages.yaml by `sots init`).
+# Each entry matches the CoreMessage model (blueprint 03 §6):
+# id M1, M2...; level book|chapter; chapter_id for chapter-level messages;
+# statement; priority (1 = most important).
+messages:
+  # - id: M1
+  #   level: book
+  #   chapter_id: null
+  #   statement: "Example: the reader's struggles are structurally produced, not moral failures."
+  #   priority: 1
+  # - id: M2
+  #   level: chapter
+  #   chapter_id: ch01
+  #   statement: "Example: attention is captured by design, and can be reclaimed by practice."
+  #   priority: 2

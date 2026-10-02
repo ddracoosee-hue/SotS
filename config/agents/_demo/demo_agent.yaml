@@ -1,0 +1,21 @@
+# Demo agent card (P03 T03.003). Tests only: tools compute + db_read_units.
+name: demo_agent
+team: fact_check
+role: "Test-only 3-step tool loop for the agent runtime integration tests"
+prompts:
+  system: _demo/demo.system.v1.md
+  step: _demo/demo.step.v1.md
+output_model: demo output (test-local; the subclass attribute is authoritative)
+routing_task: classify.unit
+tools: [compute, db_read_units]
+internet: false
+limits:
+  max_steps: 3
+  max_tokens: 60000
+  timeout_s: 600
+  max_retries: 2
+grading:
+  rubric: null
+failsafes: [F01, F02, F04, F05, F06, F07, F08, F09, F10, F12, F16, F20]
+foundation_pieces: [F1, F2]
+on_failure: dead_letter

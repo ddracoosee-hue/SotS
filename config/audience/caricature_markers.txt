@@ -1,0 +1,61 @@
+# Caricature markers for the AC-02 validator (20 §4.2). If a persona reaction
+# contains one of these voice-gimmick phrases, it is rejected and regenerated.
+# One entry per line; matching is case-insensitive substring.
+yaaas
+oh girl
+no cap
+fr fr
+slay
+ok boomer
+okay boomer
+yass queen
+snatched
+wig snatched
+tea sis
+spill the tea sis
+periodt
+bestie (as address)
+slay queen
+ate that up
+understood the assignment
+rent free
+vibe check failed
+sheesh
+bussin
+drip check
+glow up queen
+fellow kids
+how do you do fellow kids
+skibidi
+ohio rizz
+gyatt
+fanum tax
+kai cenat
+yeet fleet
+sussy
+among us sus
+cheugy
+karen bob
+live laugh lesbian (stereotype)
+sassy gay friend
+magical negro
+spicy latina
+dragon lady
+model minority
+noble savage
+white savior line
+ghetto (as adjective)
+ratchet (as label)
+basic white girl
+pumpkin spice basic
+wine mom
+soccer mom energy
+boomer energy
+zoomer energy
+sigma grindset
+alpha male energy
+pick me
+not like other girls
+mansplaining
+girlboss gaslight gatekeep
+touch grass kid

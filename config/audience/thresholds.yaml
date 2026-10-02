@@ -1,0 +1,10 @@
+# Text Mechanics Panel default thresholds (20 §3). Editable; LR-04: learning never
+# touches gate thresholds for truth/citations, but these style/audience thresholds
+# may be proposed for author approval.
+
+controlling_language_index_max: 4.0 # per 1000 words (must/should/need to/have to/ought directed at "you")
+hook_interval_max_words: 450 # words between hooks (questions, turns, reveals, scene changes)
+paragraph_max_words: 180
+therapy_speak_misuse_max: 0 # unsupported uses of clinical terms
+absolutist_rate_max: 6.0 # per 1000 words (always/never/everyone/nobody)
+min_panel_sd: 0.8 # 20 §4.2 AC-05: below this SD on core metrics → "panel collapse" flag

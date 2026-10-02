@@ -1,0 +1,18 @@
+# Audience Lab targets (20 §5.2). A chapter's `reader_journey` spec overrides these.
+# Scores are 0–10 panel means unless noted. voice_floor is non-negotiable: an
+# audience edit that pushes voice similarity below it is always rejected.
+
+primary_cohort: gen_z_adult
+primary_cohort_targets:
+  mrr: 0.80 # Message Reception Rate: share of takeaways matching the target message
+  credibility: 7.5
+  intellectual_respect: 8.0
+  preachiness_max: 3.0
+  felt_judged_max: 2.5
+  would_continue: 7.5
+all_adults_targets:
+  mrr: 0.70
+  credibility: 7.0
+voice_floor: 0.85 # style similarity may never drop below this for audience gains
+max_loops: 3 # Act III Lab → Brief → Line Editor loops (20 §5.3)
+regression_tolerance: 0.3 # Act VI no-regression: primary metrics ≥ Act III final − 0.3

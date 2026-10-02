@@ -1,0 +1,17 @@
+# Team registry (16 §6). Copied exactly.
+# Each team's agent cards live in config/agents/<team>/.
+
+teams:
+  fact_check: {doc: "06 §9", act: I}
+  media: {doc: "07", act: I}
+  psyche: {doc: "08", act: I}
+  narrative: {doc: "09", act: I}
+  shadow: {doc: "10", act: [I, VI]}
+  rewrite_pass_a: {doc: "19 §3", act: II}
+  audience_lab: {doc: "20", act: [III, VI]}
+  legal_chamber: {doc: "22", act: [IV, VI]}
+  discovery: {doc: "06 §9.3 + 11", act: V}
+  quality_gate: {doc: "17", act: "all user-facing gates"}
+  proposal_desk: {doc: "18", act: V}
+  rewrite_pass_b: {doc: "19 §4", act: VI}
+  learning: {doc: "20 §7", act: "after VI"}

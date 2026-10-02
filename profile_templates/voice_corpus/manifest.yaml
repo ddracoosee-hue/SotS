@@ -1,0 +1,14 @@
+# Voice corpus manifest (copied to profile/voice_corpus/manifest.yaml by `sots init`).
+# One entry per item; auto-created on intake, and you may edit weights and notes.
+# Fields match the VoiceSample model (blueprint 29 §1).
+samples: []
+# Example entry:
+# - id: vs_01J9EXAMPLE
+#   path: final/ch01_the_modern_day.md
+#   sha256: "..."
+#   register: final        # final | draft | spoken | casual | pair_raw | pair_final | not_me
+#   written_on: null       # YYYY-MM-DD when known; drives the recency weight
+#   words: 0
+#   weight: 1.0            # your trust weight, 0.5-2.0
+#   note: null
+#   added_at: null

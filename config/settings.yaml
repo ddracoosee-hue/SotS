@@ -1,0 +1,180 @@
+# SotS settings (P00 C1). Every key carries the blueprint section it comes from.
+# Secrets live in .env, never here (04 §1).
+
+# --- Paths (02 §4: folder tree) ---
+paths:
+  data_dir: data                  # 02 §4 (gitignored runtime data)
+  db_path: data/sots.db           # 02 §5 (SQLite, stdlib sqlite3, WAL mode)
+  inbox_dir: data/inbox           # 02 §4 (immutable raw copies)
+  cache_dir: data/cache           # 02 §4 (LLM + fetch cache)
+  runs_dir: data/runs             # 02 §4 (per-run reports, revisions/, legal/, expand/)
+  logs_dir: data/logs             # 02 §4 (sots.jsonl, events.jsonl)
+  exports_dir: data/exports       # 02 §4, 19 §6 (master manuscript output)
+  profile_dir: profile            # 02 §4 (author's private context, gitignored)
+  supplements_dir: supplements    # 02 §4, 06 §3.2 (author reference material)
+  prompts_dir: prompts            # 02 §4 (versioned prompt templates)
+  eval_dir: eval                  # 02 §4, 14 §3 (gold sets)
+  vault_dir: data/vault           # OI-42 (Obsidian mirror of profile/; data/ is gitignored)
+
+# --- Providers (04 §1; allowed deps 02 §6) ---
+providers:
+  muse:                           # 04 §1 (heavy reasoning; values open per 15 OI-03)
+    base_url: null                # 04 §1, 15 OI-03 (endpoint unknown; author provides)
+    api_key_env: MUSE_API_KEY     # 04 §1 (secret name in .env, never the value)
+    model: null                   # 04 §1, 15 OI-03 (model names unknown; author provides)
+    context_window: null          # 04 §1.1 (LLMProvider.context_window; author provides)
+    supports_json_schema: null    # 04 §1, 15 OI-03 (unknown until the API is defined)
+    supports_web_search: null     # 04 §1, 04 §7, 15 OI-03 (unknown; muse_search.py only if offered)
+    price_input_per_1k: null      # 04 §6 (prices per 1k tokens live in config; author sets)
+    price_output_per_1k: null     # 04 §6 (author sets)
+    request_path: null            # T02.005 (path appended to base_url; author provides)
+    auth_header: Authorization    # T02.005 (auth header name; author confirms)
+    auth_scheme: Bearer           # T02.005 (scheme prefix; "" sends the raw key)
+    request_template: null        # T02.005 (request body with $model/$messages/$temperature/$max_tokens/[$json_schema]; author provides)
+    response_text_path: null      # T02.005 (dot path to the text in the response JSON; author provides)
+    response_input_tokens_path: null   # T02.005 (dot path; missing falls back to estimation)
+    response_output_tokens_path: null  # T02.005 (dot path; missing falls back to estimation)
+    response_model_path: null     # T02.005 (dot path to the model echo; optional)
+  local:                          # 04 §1 (cheap bulk work via Ollama)
+    base_url: http://localhost:11434  # 04 §1.2
+    model: null                   # 04 §1.2, 15 OI-05 (author confirms; suggested: instruction-tuned 7-14B)
+    num_ctx: 32768                # 04 §1.2 (suggested default; author confirms vs hardware)
+    context_window: 32768         # 04 §1.1 (LLMProvider.context_window, from config)
+    price_input_per_1k: 0         # 04 §6 (local costs 0)
+    price_output_per_1k: 0        # 04 §6 (local costs 0)
+
+# --- Chunking (04 §5: summary tree and map-reduce) ---
+chunk:
+  target_tokens:                  # 04 §5 (split on paragraph boundaries, never mid-sentence)
+    local: 3000                   # 04 §5, 15 OI-05
+    muse: 12000                   # 04 §5, 28 §1
+  overlap_tokens: 200             # 04 §5
+
+# --- Context packs (04 §4) ---
+context:
+  budgets:                        # 04 §4 (per-piece token budgets; scaled by context_window)
+    book_profile: 600             # 04 §4 (piece 2: profile/book.md)
+    chapter_brief: 800            # 04 §4 (piece 3: profile/chapters/<id>_brief.md)
+    core_messages: 400            # 04 §4 (piece 4: profile/messages.yaml)
+    author_profile: 400           # 04 §4 (piece 5: profile/author.md, compressed)
+    document_summary: 800         # 04 §4 (piece 6: summary tree)
+    neighbours: 1500              # 04 §4 (piece 7: neighbouring units)
+    supplements: 1500             # 04 §4 (piece 8: supplements/ excerpts)
+    style_guide: 600              # T02.020 (rewrite.* piece; P02 default, blueprint is silent)
+    issue_context: 800            # T02.020 (legal.* piece; P02 default, blueprint is silent)
+    persona_card: 500             # T02.020 (audience.persona_read piece; P02 default)
+    journey_spec: 400             # T02.020 (audience.persona_read piece; P02 default)
+    f1_book: 400                  # 23 §3 (F1 Book Card)
+    f2_chapter: 700               # 23 §3 (F2 Chapter Card)
+    f3_block: 600                 # 23 §3 (F3 Block Card)
+    f4_anchors: 800               # 23 §3 (F4 Anchor Card)
+    f5_voice: 500                 # 23 §3 (F5 Voice Card)
+    f6_arc: 300                   # 23 §3 (F6 Arc Card)
+
+# --- Budget and cost (04 §6) ---
+budget:
+  max_tokens_per_run: 2000000     # 04 §6, 15 OI-09
+  max_cost_per_run: null          # 04 §6, 15 OI-09 (currency; left for the author to set)
+  warn_at: 0.8                    # 04 §6 (warn at 80%; at 100% the run stops, resumable)
+
+# --- Cache (04 §2, 06 §3.2) ---
+cache:
+  fetch_ttl_days: 30              # 06 §3.2 (fetch cache in data/cache/fetch/ by URL hash)
+
+# --- Concurrency (02 §7) ---
+concurrency:
+  muse: 4                         # 02 §7 (semaphore per provider; default chosen, blueprint is silent)
+  local: 2                        # 02 §7 (semaphore per provider; default chosen, blueprint is silent)
+  batch_size: 16                  # 02 §7 (orchestrator unit batch size; default chosen)
+
+# --- Web search (04 §7; tools 16 §3) ---
+search:
+  providers: [searxng, tavily]    # 04 §7 (enabled search providers, in order)
+  searxng_base_url: http://localhost:8888  # 04 §7 (self-hosted SearXNG)
+
+# --- Research (06 §3) ---
+research:
+  max_urls_per_unit: 8            # 06 §3.3 (ranked tier-first, then search rank)
+
+# --- Classification (05 §3.4) ---
+classify:
+  review_threshold: 0.6           # 05 §3.4 (below this confidence -> TUI Review queue)
+
+# --- Expansion team (11) ---
+expand:
+  auto_approve_budget_tokens: 0   # 11 R-EXP-06 (0 = deep research always asks)
+  min_relevance: 0.6              # 11 R-EXP-07 (threads below this are rejected by the Critic)
+  leads_per_round: 3              # 11 §4.3 (top-k leads carried into the next round)
+
+# --- Rewrite teams (19) ---
+rewrite:
+  pass_a:                         # 19 §3 (mid polish, Act II)
+    edit_budget: 0.15             # 19 §1, 19 §3 (<= 15% tokens changed per paragraph)
+    author_review: false          # 19 §1 (optional in Pass A; gates G-HUNK-A only if true, 17 §1)
+  pass_b:                         # 19 §4 (master rewrite, Act VI)
+    edit_budget: 0.35             # 19 §1, 19 §4 (<= 35% per paragraph; woven inserts excluded)
+
+# --- LanguageTool (19 §2.1) ---
+languagetool:
+  url: http://localhost:8081      # 19 §2.1 (local server over HTTP via httpx)
+  language: en-US                 # 19 §2.1
+
+# --- Proposal desk (18 §4) ---
+proposal_desk:
+  max_open: 7                     # 18 §4 (max proposals presented at once)
+
+# --- Discovery scouting (06 §9.3) ---
+discovery:
+  max_candidates_per_chapter: 10  # 06 §9.3 (top-N DiscoveryNotes strengthened per chapter)
+
+# --- Audience lab (20) ---
+audience:
+  samples_per_persona: 3          # 20 §4.3 (3 samples each; 1 allowed for drafts, 20 §8)
+  min_panel_sd: 0.8               # 20 §4.2 AC-05 (below this on core metrics -> panel-collapse flag)
+
+# --- Legal chamber (22 §3) ---
+legal:
+  primary_jurisdiction: US        # 22 §3 (pending 15 OI-18)
+  secondary_jurisdictions: [UK, CA, AU, EU]  # 22 §3 (for L7)
+
+# --- Privacy (15 OI-06) ---
+privacy:
+  personal_to_cloud: true         # 15 OI-06 (may confessional units go to Muse? default: allowed)
+
+# --- Safety (01 R-PSY-04; resources in config/safety.yaml, 02 §4) ---
+safety:
+  scan_enabled: true              # 01 R-PSY-04 (crisis-language scan runs before psyche engines)
+  resources_file: safety.yaml     # 01 R-PSY-04, 02 §4 (calm, non-blocking TUI notice; pipeline keeps running)
+
+# --- Fetch politeness (06 §3.2, 16 F14) ---
+fetch:
+  per_domain_rate_limit_per_s: 1  # 16 F14 (robots.txt respected; UA from CONTACT_EMAIL in .env)
+  timeout_s: 15                   # 06 §3.2, 16 §3 (web fetcher timeout; skips non-HTML/PDF)
+
+# --- Run guards (16 F19) ---
+canary:
+  enabled: true                   # 16 F19 (can be disabled in settings)
+  threshold_words: 20000          # 16 F19 (runs over > 20k words first run a 1-page canary)
+
+# --- Obsidian vault mirror (OI-42; author-approved addition) ---
+vault:
+  enabled: true                   # OI-42 (set false to skip vault sync in automation)
+  author_notes_heading: "## Author notes"  # OI-42 (sync never edits below this line)
+  index_note: "Book Index.md"     # OI-42 (map of content at the vault root)
+
+# --- Agent runtime (16) ---
+agents:
+  max_observation_chars: 4000     # T03.011 (scratchpad observation cap; default chosen, blueprint is silent)
+  tool_timeout_s: 60              # 16 F01 (per-tool timeout; the card sets the per-agent timeout)
+  injection_patterns:             # 16 F13 (case-insensitive phrases stripped from observations)
+    - ignore previous instructions
+    - ignore all previous instructions
+    - disregard your instructions
+    - forget your instructions
+    - you are now
+    - system prompt
+    - do not follow
+    - override your instructions
+
+# --- Sections (28 §1) ---
+words_per_page: 325               # 28 §1 (page_estimate = words / words_per_page)

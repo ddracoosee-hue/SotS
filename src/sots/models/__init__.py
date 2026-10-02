@@ -1,0 +1,243 @@
+"""Public model re-exports (P01 T01.021).
+
+`from sots.models import *` exposes every model, enum, and id helper.
+`Origin` comes from `enums`; the identical expansion enum is aliased as
+`ExpansionOrigin` to avoid a name collision.
+"""
+
+from __future__ import annotations
+
+from sots.models.agents import (
+    AgentAction,
+    AgentCard,
+    AgentCardPrompts,
+    AgentGrading,
+    AgentLimits,
+    AgentResult,
+    AgentRun,
+    BudgetSlice,
+)
+from sots.models.audience import (
+    AudienceBrief,
+    AudienceScorecard,
+    BriefItem,
+    CalibrationRecord,
+    MechanicsFinding,
+    Persona,
+    PersonaReaction,
+    PlaybookEntry,
+    QuoteRef,
+)
+from sots.models.cache import CacheEntry
+from sots.models.document import Chunk, Document, SupplementDoc
+from sots.models.enums import (
+    Checkability,
+    ClaimKind,
+    ContentType,
+    MediaKind,
+    Origin,
+    Severity,
+    SourceClass,
+    StageStatus,
+    Stance,
+    Verdict,
+)
+from sots.models.evidence import Evidence, FetchedDoc, SearchHit
+from sots.models.expansion import (
+    Concept,
+    ConceptEdge,
+    ConceptGraph,
+    CriticScore,
+    DeepResearchReport,
+    ExpansionThread,
+    IntegrationBrief,
+    MarginNote,
+    ReportSection,
+    ReportStatement,
+    ResearchBrief,
+    ResearchNote,
+)
+from sots.models.expansion import Origin as ExpansionOrigin
+from sots.models.foundation import (
+    Alternative,
+    AnchorMedia,
+    ArchPhase,
+    ArcStep,
+    Block,
+    BriefAnchor,
+    BriefEdit,
+    DictationPrompt,
+    EpistemicTier,
+    FoundationChange,
+    MotifSerial,
+    Protocol,
+)
+from sots.models.grading import CriterionResult, GradeRecord, GraderHealth
+from sots.models.ids import new_id
+from sots.models.learning import LearningChange, PromptTrial
+from sots.models.legal import Authority, DefenseMemo, LegalIssue, Position
+from sots.models.media import MediaCheck, MediaPoint, MediaWork
+from sots.models.narrative import (
+    CoreMessage,
+    DriftReport,
+    MessageMapping,
+    VoiceComparison,
+    VoiceFingerprint,
+)
+from sots.models.profile import (
+    AuthorProfile,
+    BookProfile,
+    ChapterBrief,
+    VoiceManifest,
+    VoiceSample,
+)
+from sots.models.proposal import (
+    AuthorQuestion,
+    IntegrationMode,
+    IntegrationPlanItem,
+    PlacementOption,
+    Proposal,
+    ProposalDecision,
+)
+from sots.models.psyche import EngineFinding, Synthesis
+from sots.models.rewrite import (
+    CrossCheckItem,
+    CrossCheckReport,
+    Revision,
+    RevisionHunk,
+    StyleGuide,
+    StyleReport,
+)
+from sots.models.run import ChapterState, LLMCall, Run
+from sots.models.shadow import RubricScore, ShadowItem, ShadowReport
+from sots.models.unit import Unit
+from sots.models.vault import (
+    VaultAuthorNote,
+    VaultCounts,
+    VaultFoundation,
+    VaultNote,
+    VaultStaleFile,
+    VaultSyncState,
+)
+from sots.models.verdict import (
+    DiscoveryNote,
+    RuleCheck,
+    SpecialistFindings,
+    VerdictRecord,
+)
+
+__all__ = [
+    "AgentAction",
+    "AgentCard",
+    "AgentCardPrompts",
+    "AgentGrading",
+    "AgentLimits",
+    "AgentResult",
+    "AgentRun",
+    "Alternative",
+    "AnchorMedia",
+    "ArcStep",
+    "ArchPhase",
+    "AudienceBrief",
+    "AudienceScorecard",
+    "AuthorProfile",
+    "AuthorQuestion",
+    "Authority",
+    "Block",
+    "BookProfile",
+    "BriefAnchor",
+    "BriefEdit",
+    "BriefItem",
+    "BudgetSlice",
+    "CacheEntry",
+    "CalibrationRecord",
+    "ChapterBrief",
+    "ChapterState",
+    "Checkability",
+    "Chunk",
+    "ClaimKind",
+    "Concept",
+    "ConceptEdge",
+    "ConceptGraph",
+    "ContentType",
+    "CoreMessage",
+    "CriterionResult",
+    "CriticScore",
+    "CrossCheckItem",
+    "CrossCheckReport",
+    "DeepResearchReport",
+    "DefenseMemo",
+    "DictationPrompt",
+    "DiscoveryNote",
+    "Document",
+    "DriftReport",
+    "EngineFinding",
+    "EpistemicTier",
+    "Evidence",
+    "ExpansionOrigin",
+    "ExpansionThread",
+    "FetchedDoc",
+    "FoundationChange",
+    "GradeRecord",
+    "GraderHealth",
+    "IntegrationBrief",
+    "IntegrationMode",
+    "IntegrationPlanItem",
+    "LLMCall",
+    "LearningChange",
+    "LegalIssue",
+    "MarginNote",
+    "MechanicsFinding",
+    "MediaCheck",
+    "MediaKind",
+    "MediaPoint",
+    "MediaWork",
+    "MessageMapping",
+    "MotifSerial",
+    "Origin",
+    "Persona",
+    "PersonaReaction",
+    "PlacementOption",
+    "PlaybookEntry",
+    "Position",
+    "PromptTrial",
+    "Proposal",
+    "ProposalDecision",
+    "Protocol",
+    "QuoteRef",
+    "ReportSection",
+    "ReportStatement",
+    "ResearchBrief",
+    "ResearchNote",
+    "Revision",
+    "RevisionHunk",
+    "RubricScore",
+    "RuleCheck",
+    "Run",
+    "SearchHit",
+    "Severity",
+    "ShadowItem",
+    "ShadowReport",
+    "SourceClass",
+    "SpecialistFindings",
+    "StageStatus",
+    "Stance",
+    "StyleGuide",
+    "StyleReport",
+    "SupplementDoc",
+    "Synthesis",
+    "Unit",
+    "VaultAuthorNote",
+    "VaultCounts",
+    "VaultFoundation",
+    "VaultNote",
+    "VaultStaleFile",
+    "VaultSyncState",
+    "Verdict",
+    "VerdictRecord",
+    "VoiceComparison",
+    "VoiceFingerprint",
+    "VoiceManifest",
+    "VoiceSample",
+    "new_id",
+]

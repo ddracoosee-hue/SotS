@@ -1,0 +1,86 @@
+{
+  "title": "The Talking Points",
+  "subtitle": "Say the hard thing kindly",
+  "phase_claimed": "P4",
+  "core_theme": "Honest speech is a practiced craft.",
+  "blocks": [
+    {
+      "number": 1,
+      "name": "hook_targeting",
+      "structural_purpose": "Open on the unsaid thing.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": ["ch11.A08"],
+      "dictation_prompts": ["Name one thing left unsaid."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 2,
+      "name": "paradigm_shift",
+      "structural_purpose": "Flip silence to craft.",
+      "old_belief": "Silence keeps the peace.",
+      "new_belief": "Skillful speech keeps the relationship.",
+      "anchor_refs": [],
+      "dictation_prompts": ["When did silence cost you?"],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 3,
+      "name": "core_mechanism",
+      "structural_purpose": "Teach the talking-points frame.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": ["An unlisted pamphlet about harbor seals xyzzy"],
+      "dictation_prompts": ["Walk through the frame once."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 4,
+      "name": "case_study",
+      "structural_purpose": "A conversation that worked.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["Retell the conversation beat by beat."],
+      "protocols": [],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 5,
+      "name": "actionable_implementation",
+      "structural_purpose": "Three protocols for the week.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["Practice the opener aloud."],
+      "protocols": [
+        {"name": "Opener draft", "steps": "Write the first sentence only."},
+        {"name": "Repair script", "steps": "Rehearse one repair line."},
+        {"name": "Debrief note", "steps": "Two lines after each hard talk."}
+      ],
+      "journaling_prompts": [],
+      "tables": []
+    },
+    {
+      "number": 6,
+      "name": "integration_reflection",
+      "structural_purpose": "Close with reflection.",
+      "old_belief": null,
+      "new_belief": null,
+      "anchor_refs": [],
+      "dictation_prompts": ["What got easier to say?"],
+      "protocols": [],
+      "journaling_prompts": ["What did you say?", "What landed?", "What needs repair?"],
+      "tables": []
+    }
+  ],
+  "voice_rules": ["Short paragraphs. Questions over declarations."],
+  "appendix_system_prompt": "APPENDIX-SENTINEL-ch11: plainspoken, no hedging."
+}

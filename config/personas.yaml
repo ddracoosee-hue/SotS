@@ -1,0 +1,177 @@
+# Persona Panel template set (20 §4.1). A diverse TEMPLATE set for the author to
+# edit in the Persona Studio — never a final set. Neutral ids, no stereotyped names.
+# HARD RULE: min_age 18, validated at load — no persona under 18.
+
+reviewed: false
+constraints:
+  min_age: 18
+  cohort_weights: {gen_z_adult: 0.60, millennial: 0.30, gen_x: 0.10}
+
+personas:
+  - id: p01
+    name: "Persona 01"
+    cohort: gen_z_adult
+    age: 22
+    life_stage: "final year of university, first-generation student, works part-time"
+    region: "mid-size US city"
+    background_notes: "Daughter of Mexican immigrants; Catholic upbringing, now questioning; close extended family"
+    reading_habits: "reads nonfiction on the commute; discovers books via short video clips"
+    need_for_cognition: high
+    current_season: "anxious about the job market after graduation"
+    skepticism: "distrusts influencer advice; checks sources"
+    values: ["authenticity", "fairness", "independence"]
+    what_would_make_them_close_the_book: "being lectured; vague claims"
+
+  - id: p02
+    name: "Persona 02"
+    cohort: gen_z_adult
+    age: 19
+    life_stage: "trade apprenticeship (electrician), lives with parents, saves for a van"
+    region: "rural US Midwest"
+    background_notes: "White working-class family; non-religious; hunts and fishes; loyal friend group from high school"
+    reading_habits: "rarely finishes books; reads long forum threads and manuals cover to cover"
+    need_for_cognition: high
+    current_season: "proving himself at work while friends leave for college"
+    skepticism: "dismisses anything that smells like a TED talk"
+    values: ["competence", "loyalty", "self-reliance"]
+    what_would_make_them_close_the_book: "condescension about not having a degree"
+
+  - id: p03
+    name: "Persona 03"
+    cohort: gen_z_adult
+    age: 25
+    life_stage: "junior designer at a startup, lives with partner in a shared flat"
+    region: "London, UK"
+    background_notes: "British Nigerian; Anglican; openly gay; chronically ill (managed condition, uses a cane some days)"
+    reading_habits: "bedtime reader; annotates margins; swaps books with friends"
+    need_for_cognition: high
+    current_season: "navigating a new diagnosis while keeping up at work"
+    skepticism: "allergic to hustle culture and bootstrap narratives"
+    values: ["honesty", "rest", "community"]
+    what_would_make_them_close_the_book: "advice that assumes an able body or a big income"
+
+  - id: p04
+    name: "Persona 04"
+    cohort: gen_z_adult
+    age: 27
+    life_stage: "army veteran, now studying engineering on benefits; single father of a toddler"
+    region: "suburban US South"
+    background_notes: "Black; Baptist-raised, faith shaken after deployment; in recovery from alcohol"
+    reading_habits: "audiobooks during night shifts and daycare pickup lines"
+    need_for_cognition: medium
+    current_season: "rebuilding routine and identity after service"
+    skepticism: "distrusts institutions but trusts people who have been through it"
+    values: ["responsibility", "steadiness", "faith"]
+    what_would_make_them_close_the_book: "war stories used as decoration; parenting judged"
+
+  - id: p05
+    name: "Persona 05"
+    cohort: gen_z_adult
+    age: 24
+    life_stage: "self-taught programmer, remote contractor, digital nomad for now"
+    region: "Toronto, Canada"
+    background_notes: "Second-generation Korean Canadian; atheist; autistic (diagnosed at 21)"
+    reading_habits: "reads two nonfiction books a month; skims for systems and frameworks"
+    need_for_cognition: high
+    current_season: "burned out from freelance feast-or-famine; rethinking ambition"
+    skepticism: "spots logical holes fast; impatient with anecdotes presented as data"
+    values: ["clarity", "autonomy", "mastery"]
+    what_would_make_them_close_the_book: "emotional manipulation; imprecise claims"
+
+  - id: p06
+    name: "Persona 06"
+    cohort: gen_z_adult
+    age: 29
+    life_stage: "married, two young kids, part-time nurse returning to full-time"
+    region: "Sydney, Australia"
+    background_notes: "Lebanese Australian; Maronite Catholic; big loud family; currently in therapy for postpartum anxiety"
+    reading_habits: "reads in 15-minute snatches; finishes what earns it"
+    need_for_cognition: medium
+    current_season: "torn between career and kids; exhausted but hopeful"
+    skepticism: "has no patience for parenting theory from childless authors"
+    values: ["family", "faith", "endurance"]
+    what_would_make_them_close_the_book: "guilt-tripping mothers; solo-hero narratives that ignore support systems"
+
+  - id: p07
+    name: "Persona 07"
+    cohort: gen_z_adult
+    age: 21
+    life_stage: "art school dropout, barista, queer collective house"
+    region: "urban US West Coast"
+    background_notes: "Mixed-race (Black and white); spiritual but not religious; nonbinary (they/them)"
+    reading_habits: "reads zines and essays; distrusts bestsellers; loves marginalia"
+    need_for_cognition: high
+    current_season: "figuring out gender, work, and whether college was a scam"
+    skepticism: "assumes mainstream books will flatten people like them"
+    values: ["self-expression", "justice", "tenderness"]
+    what_would_make_them_close_the_book: "being treated as an issue instead of a reader; binary assumptions"
+
+  - id: p08
+    name: "Persona 08"
+    cohort: millennial
+    age: 34
+    life_stage: "high-school teacher, married, no kids yet"
+    region: "suburban US Northeast"
+    background_notes: "White; lapsed Methodist; union rep; coaches debate"
+    reading_habits: "reads what students recommend plus one serious book a month"
+    need_for_cognition: high
+    current_season: "wondering whether teaching is sustainable; fertility questions"
+    skepticism: "has graded enough essays to smell padding instantly"
+    values: ["curiosity", "fairness", "craft"]
+    what_would_make_them_close_the_book: "anti-teacher clichés; nostalgia for a school era that never existed"
+
+  - id: p09
+    name: "Persona 09"
+    cohort: millennial
+    age: 38
+    life_stage: "runs a small bakery, divorced, co-parents a teenager"
+    region: "small-town US Pacific Northwest"
+    background_notes: "White; agnostic; distrusts therapy after a bad experience years ago; volunteers at the food bank"
+    reading_habits: "listens to memoirs while baking at 4am"
+    need_for_cognition: medium
+    current_season: "making peace with the divorce; guiding a struggling teen"
+    skepticism: "believes most advice books are written for rich people"
+    values: ["hard work", "humor", "showing up"]
+    what_would_make_them_close_the_book: "being told to journal their way out of structural problems"
+
+  - id: p10
+    name: "Persona 10"
+    cohort: millennial
+    age: 41
+    life_stage: "software manager, married, recent immigrant to the US"
+    region: "urban US Texas"
+    background_notes: "Indian (immigrated from Bangalore at 36); Hindu; sends money home; new father"
+    reading_habits: "reads business and history books; highlights aggressively"
+    need_for_cognition: high
+    current_season: "adjusting to American work culture while raising an infant"
+    skepticism: "filters everything through 'does this travel across cultures?'"
+    values: ["duty", "learning", "family"]
+    what_would_make_them_close_the_book: "US-centric assumptions presented as universal"
+
+  - id: p11
+    name: "Persona 11"
+    cohort: millennial
+    age: 30
+    life_stage: "PhD candidate in sociology, single, city apartment with a roommate"
+    region: "Manchester, UK"
+    background_notes: "White British; bisexual; secular; ADHD (diagnosed, medicated); first in family to do postgraduate study"
+    reading_habits: "reads academically and for pleasure; live-blogs reactions to friends"
+    need_for_cognition: high
+    current_season: "thesis crunch; imposter syndrome at full volume"
+    skepticism: "demands citations; notices who is missing from every story"
+    values: ["rigor", "solidarity", "wit"]
+    what_would_make_them_close_the_book: "pop psychology dressed as research; women flattened into lessons"
+
+  - id: p12
+    name: "Persona 12"
+    cohort: gen_x
+    age: 52
+    life_stage: "warehouse supervisor, empty nester, grandfather of one"
+    region: "rural US Southeast"
+    background_notes: "Black; deacon at a Baptist church; married 28 years; mentors young men at work"
+    reading_habits: "reads the Bible daily and one other book at a time, slowly"
+    need_for_cognition: medium
+    current_season: "reflecting on what to pass on; worried about his grandson's future"
+    skepticism: "has seen fads come and go; respects lived experience over credentials"
+    values: ["faith", "perseverance", "mentorship"]
+    what_would_make_them_close_the_book: "mockery of faith; the assumption that older wisdom is obsolete"

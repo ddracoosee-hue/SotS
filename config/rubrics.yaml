@@ -1,0 +1,59 @@
+# Shadow Self writing rubric (10 §2.1). Copied exactly.
+# Each criterion is scored 1-5. Where a metric exists, the score comes from the
+# metric by fixed bands, not from the LLM; the LLM scores only `judged` criteria.
+# overall = weighted mean; weights must sum to 1.0 (asserted in tests).
+# The author may edit weights, bands, and targets; code reads them (10 §2.1).
+
+criteria:
+  - id: factual_integrity
+    weight: 0.20
+    metric: share of checkable units with final_verdict in [true, mostly_true]
+    bands: {5: ">=0.95", 4: ">=0.85", 3: ">=0.70", 2: ">=0.50", 1: "<0.50"}
+    target: 0.90
+    hard_goal: "0 FALSE verdicts left unaddressed"
+  - id: evidence_quality
+    weight: 0.10
+    metric: mean best-supporting tier across verified units (lower is better)
+    bands: {5: "<=1.5", 4: "<=2.0", 3: "<=2.5", 2: "<=3.5", 1: ">3.5"}
+    target: 2.0
+  - id: media_fidelity
+    weight: 0.10
+    metric: share of media points accurate or partly_accurate
+    bands: {5: ">=0.95", 4: ">=0.85", 3: ">=0.70", 2: ">=0.50", 1: "<0.50"}
+    target: 0.90
+  - id: message_clarity
+    weight: 0.15
+    metric: share of chapter messages stated AND illustrated
+    bands: {5: "==1.0", 4: ">=0.8", 3: ">=0.6", 2: ">=0.4", 1: "<0.4"}
+    target: 1.0
+  - id: on_track
+    weight: 0.10
+    metric: 1 - unmapped_ratio
+    bands: {5: ">=0.85", 4: ">=0.75", 3: ">=0.60", 2: ">=0.45", 1: "<0.45"}
+    target: 0.80
+  - id: voice_consistency
+    weight: 0.10
+    metric: voice similarity
+    bands: {5: ">=0.85", 4: ">=0.75", 3: ">=0.65", 2: ">=0.50", 1: "<0.50"}
+    target: 0.80
+  - id: honesty_accountability
+    weight: 0.10
+    judged: true
+    anchors:
+      5: "Author owns their choices and mistakes; others are portrayed fairly"
+      3: "Some self-examination; some one-sided portrayal"
+      1: "Author is consistently only acted upon; others are villains"
+  - id: reader_utility
+    weight: 0.10
+    judged: true
+    anchors:
+      5: "Every lesson is concrete and actionable, grounded in a story"
+      3: "Some lessons actionable; some vague or preachy"
+      1: "Lessons are abstract or absent"
+  - id: emotional_truth
+    weight: 0.05
+    judged: true
+    anchors:
+      5: "Emotion is specific, earned, and matches events"
+      3: "Emotion is present but generic or uneven"
+      1: "Emotion is absent, performative, or mismatched"

@@ -1,0 +1,37 @@
+# Source tiers (06 §2). Copied exactly; the author may edit this file.
+# Wikipedia is tier 3: a claim resting only on Wikipedia cannot reach TRUE (06 VR-GEN-02).
+
+# Maps domain patterns to tier (1 = strongest) and source_class.
+# First match wins. Unknown domains default to tier 4, OPINION_COMMENTARY.
+rules:
+  - {pattern: "courtlistener.com",      tier: 1, class: primary_record}
+  - {pattern: "*.gov",                  tier: 1, class: primary_record}
+  - {pattern: "*.gov.*",                tier: 1, class: primary_record}
+  - {pattern: "supremecourt.gov",       tier: 1, class: primary_record}
+  - {pattern: "data.worldbank.org",     tier: 1, class: primary_record}
+  - {pattern: "who.int",                tier: 1, class: primary_record}
+  - {pattern: "doi.org",                tier: 2, class: academic}
+  - {pattern: "pubmed.ncbi.nlm.nih.gov",tier: 2, class: academic}
+  - {pattern: "ncbi.nlm.nih.gov",       tier: 2, class: academic}
+  - {pattern: "*.edu",                  tier: 2, class: academic}
+  - {pattern: "openalex.org",           tier: 2, class: academic}
+  - {pattern: "pewresearch.org",        tier: 2, class: academic}
+  - {pattern: "*.wikipedia.org",        tier: 3, class: reference}
+  - {pattern: "britannica.com",         tier: 3, class: reference}
+  - {pattern: "apnews.com",             tier: 3, class: journalism}
+  - {pattern: "reuters.com",            tier: 3, class: journalism}
+  - {pattern: "bbc.co.uk",              tier: 3, class: journalism}
+  - {pattern: "npr.org",                tier: 3, class: journalism}
+  - {pattern: "snopes.com",             tier: 3, class: fact_check_org}
+  - {pattern: "politifact.com",         tier: 3, class: fact_check_org}
+  - {pattern: "factcheck.org",          tier: 3, class: fact_check_org}
+  - {pattern: "medium.com",             tier: 4, class: opinion_commentary}
+  - {pattern: "substack.com",           tier: 4, class: opinion_commentary}
+  - {pattern: "tiktok.com",             tier: 5, class: social_media}
+  - {pattern: "x.com",                  tier: 5, class: social_media}
+  - {pattern: "twitter.com",            tier: 5, class: social_media}
+  - {pattern: "instagram.com",          tier: 5, class: social_media}
+  - {pattern: "facebook.com",           tier: 5, class: social_media}
+  - {pattern: "reddit.com",             tier: 5, class: social_media}
+  - {pattern: "youtube.com",            tier: 5, class: social_media}
+default: {tier: 4, class: opinion_commentary}

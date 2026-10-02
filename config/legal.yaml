@@ -1,0 +1,75 @@
+# Legal Chamber configuration (22 §3–§4, §7).
+# Banner rule (R-LEGAL-00): SotS's legal output is risk analysis, NOT legal advice.
+# Every legal report, memo, and TUI screen starts with the banner below.
+
+banner: "This is automated risk analysis, not legal advice. Have a licensed attorney in your publishing jurisdiction review the manuscript before publication."
+
+jurisdictions:
+  primary: US # pending OI-18; settings.yaml → legal.primary_jurisdiction
+  secondary: [UK, CA, AU, EU] # for L7; settings.yaml → legal.secondary_jurisdictions
+
+counsel: # 22 §3 — specialty, stance tendency, reasoning method
+  - id: L1
+    name: "Defamation & False Light Counsel"
+    specialty: "defamation, false light, substantial truth, fact vs opinion, public vs private figures, 'of and concerning'"
+    stance: risk_averse # reads as the plaintiff's lawyer would
+    method: "doctrinal: elements test per statement"
+    prompt: legal/L1_defamation.v1.md
+  - id: L2
+    name: "Privacy & Consent Counsel"
+    specialty: "public disclosure of private facts, intrusion, identifiability, consent, anonymization techniques, privacy of third parties (incl. relatives)"
+    stance: risk_averse
+    method: "harm-based: 'who could be hurt, and how identifiable are they?'"
+    prompt: legal/L2_privacy.v1.md
+  - id: L3
+    name: "Copyright, Fair Use & Trademark Counsel"
+    specialty: "quotes, lyrics, excerpts, paraphrase, the four fair-use factors, trademarks in text, titles"
+    stance: balanced
+    method: "factor analysis + publisher permission practice"
+    prompt: legal/L3_copyright.v1.md
+  - id: L4
+    name: "Free Expression & Opinion Defense Counsel"
+    specialty: "opinion protection, rhetorical hyperbole, memoir and truth-telling traditions, the public interest"
+    stance: expression_maximizing # defends the author's right to say it
+    method: "precedent from successful defenses"
+    prompt: legal/L4_expression.v1.md
+  - id: L5
+    name: "Court Records & Allegations Counsel"
+    specialty: "accurately describing cases, 'alleged', presumption of innocence, fair report privilege, sealed/expunged records"
+    stance: balanced
+    method: "record-matching: text vs the actual docket (uses 06 VR-LAW results)"
+    prompt: legal/L5_court_records.v1.md
+  - id: L6
+    name: "Health Claims & Consumer Protection Counsel"
+    specialty: "self-help/mental-health advice liability, disclaimers, unsupported health claims, endorsements/affiliate disclosure guidance"
+    stance: risk_averse
+    method: "regulatory guidance + reader-harm analysis"
+    prompt: legal/L6_health_claims.v1.md
+  - id: L7
+    name: "International & Jurisdiction Counsel"
+    specialty: "where the book is published/sold: UK/Commonwealth defamation standards, EU/UK data protection, Canada/Australia differences"
+    stance: comparative # skeptical of US-only reasoning
+    method: "comparative law"
+    prompt: legal/L7_international.v1.md
+  - id: L8
+    name: "Publishing Standards & Ethics Counsel"
+    specialty: "publisher legal-review norms, fact-check expectations, errors & omissions insurance considerations, ethical harm to vulnerable third parties, reputational risk"
+    stance: pragmatic
+    method: "'what would a careful publisher require?'"
+    prompt: legal/L8_publishing.v1.md
+
+deliberation: # 22 §4
+  always_assigned: [L4, L8] # every issue → primary counsel(s) by type + L4 + L8
+  exit:
+    endorsements_required: 6 # endorse + endorse_with_reservations ≥ 6 of 8
+    endorsements_of: 8
+    unresolved_high_risks: 0
+    memo_gate: G-LEGAL # memo grade ≥ 95 (17 §3.4 legal_memo)
+  max_cycles: 3 # R2→R7 revision cycles before escalation to BLOCKED
+
+delta_review: # 22 §7 (Act VI) — only hunks changed since Act IV
+  min_counsel: 3 # relevant counsel + L4 + L8, minimum 3
+  exit:
+    endorsement_fraction: 0.6667 # ≥ 2/3 endorse
+    memo_gate: G-LEGAL
+    unresolved_high_risks: 0

@@ -1,0 +1,91 @@
+# Task -> provider routing (04 §3 + team routing blocks). Every task key is unique.
+# If a task's provider is not configured, fall back per fallback_order (04 §3);
+# verify.* tasks that fall back to local are capped at MOSTLY_TRUE (04 §3, 06 VR-GEN-07).
+
+defaults:
+  fallback_order: [muse, local]     # 04 §3
+
+tasks:
+  # --- Core pipeline (04 §3) ---
+  summarize.chunk:        {provider: local, temperature: 0.0, max_output_tokens: 800}    # 04 §3
+  segment.extract_units:  {provider: local, temperature: 0.0, max_output_tokens: 4000}   # 04 §3
+  classify.unit:          {provider: local, temperature: 0.0, max_output_tokens: 600}    # 04 §3
+  classify.safety_scan:   {provider: local, temperature: 0.0, max_output_tokens: 200}    # 04 §3, 01 R-PSY-04
+  research.plan_queries:  {provider: muse,  temperature: 0.0, max_output_tokens: 800}    # 04 §3, 06 §3.1
+  verify.researcher:      {provider: muse,  temperature: 0.0, max_output_tokens: 2000}   # 04 §3, 06 §4.1
+  verify.skeptic:         {provider: muse,  temperature: 0.0, max_output_tokens: 1500}   # 04 §3, 06 §4.2
+  verify.adjudicator:     {provider: muse,  temperature: 0.0, max_output_tokens: 1500}   # 04 §3, 06 §4.3
+  media.identify:         {provider: local, temperature: 0.0, max_output_tokens: 300}    # 04 §3
+  media.check:            {provider: muse,  temperature: 0.0, max_output_tokens: 2500}    # 04 §3
+  psyche.emotion:         {provider: local, temperature: 0.2, max_output_tokens: 1500}   # 04 §3
+  psyche.cognitive:       {provider: muse,  temperature: 0.2, max_output_tokens: 1500}   # 04 §3
+  psyche.theme:           {provider: muse,  temperature: 0.2, max_output_tokens: 1500}   # 04 §3
+  psyche.archetype:       {provider: muse,  temperature: 0.3, max_output_tokens: 1500}   # 04 §3
+  psyche.blindspot:       {provider: muse,  temperature: 0.3, max_output_tokens: 1500}   # 04 §3
+  psyche.reader:          {provider: muse,  temperature: 0.5, max_output_tokens: 1500}   # 04 §3
+  psyche.synthesize:      {provider: muse,  temperature: 0.2, max_output_tokens: 2000}   # 04 §3
+  narrative.map_messages: {provider: local, temperature: 0.0, max_output_tokens: 2000}   # 04 §3
+  narrative.voice:        {provider: muse,  temperature: 0.2, max_output_tokens: 1200}   # 04 §3
+  shadow.reflect:         {provider: muse,  temperature: 0.7, max_output_tokens: 3000}   # 04 §3, 10 §1
+  shadow.grade:           {provider: muse,  temperature: 0.0, max_output_tokens: 2000}   # 04 §3, 10 §2
+
+  # --- Fact-check specialists + scouts (06 §9; card names -> task keys) ---
+  fact_check.triage:          {provider: local, temperature: 0.0, max_output_tokens: 1000}  # 06 §9 (triage.yaml)
+  fact_check.stats:           {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 06 §9 (stats.yaml)
+  fact_check.courts:          {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 06 §9 (courts.yaml)
+  fact_check.academic:        {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 06 §9 (academic.yaml)
+  fact_check.social:          {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 06 §9 (social.yaml)
+  fact_check.quotes:          {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 06 §9 (quotes.yaml)
+  fact_check.discovery_scout: {provider: muse,  temperature: 0.3, max_output_tokens: 2500}  # 06 §9.3 (discovery_scout.yaml)
+  fact_check.media_scout:     {provider: muse,  temperature: 0.4, max_output_tokens: 2500}  # 06 §9.3 (media_scout.yaml)
+
+  # --- Expansion team (11 §6) ---
+  expand.concepts:   {provider: local, temperature: 0.1, max_output_tokens: 2000}  # 11 §6
+  expand.merge:      {provider: local, temperature: 0.0, max_output_tokens: 1000}  # 11 §6
+  expand.link:       {provider: muse,  temperature: 0.4, max_output_tokens: 1500}  # 11 §6
+  expand.propose:    {provider: muse,  temperature: 0.6, max_output_tokens: 2500}  # 11 §6
+  expand.brief:      {provider: muse,  temperature: 0.3, max_output_tokens: 1500}  # 11 §6
+  expand.queries:    {provider: muse,  temperature: 0.3, max_output_tokens: 600}   # 11 §6
+  expand.read:       {provider: muse,  temperature: 0.0, max_output_tokens: 2500}  # 11 §6
+  expand.report:     {provider: muse,  temperature: 0.2, max_output_tokens: 6000}  # 11 §6
+  expand.dialogue:   {provider: muse,  temperature: 0.6, max_output_tokens: 2000}  # 11 §6
+  expand.chat:       {provider: muse,  temperature: 0.6, max_output_tokens: 1500}  # 11 §6
+  expand.integrate:  {provider: muse,  temperature: 0.4, max_output_tokens: 3000}  # 11 §6
+  expand.critic:     {provider: muse,  temperature: 0.0, max_output_tokens: 1000}  # 11 §6
+
+  # --- Rewrite teams (19 §7) ---
+  rewrite.mechanic_adjudicate: {provider: local, temperature: 0.0, max_output_tokens: 1500}  # 19 §7
+  rewrite.format_structure:    {provider: local, temperature: 0.0, max_output_tokens: 1500}  # 19 §7
+  rewrite.line_edit:           {provider: muse,  temperature: 0.3, max_output_tokens: 3000}  # 19 §7
+  rewrite.master:              {provider: muse,  temperature: 0.4, max_output_tokens: 6000}  # 19 §7
+  rewrite.weave:               {provider: muse,  temperature: 0.5, max_output_tokens: 3000}  # 19 §7
+  rewrite.style_guide:         {provider: muse,  temperature: 0.2, max_output_tokens: 2500}  # 19 §7
+  rewrite.style_report:        {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 19 §7
+  rewrite.cross_check:         {provider: muse,  temperature: 0.0, max_output_tokens: 3000}  # 19 §7
+  rewrite.entailment:          {provider: local, temperature: 0.0, max_output_tokens: 300}   # 19 §7, 19 §5.3
+
+  # --- Audience lab + learning (20 §8) ---
+  audience.mechanics_explain: {provider: local, temperature: 0.2, max_output_tokens: 2000}  # 20 §8
+  audience.persona_read:      {provider: muse,  temperature: 0.8, max_output_tokens: 1500}  # 20 §8
+  audience.takeaway_match:    {provider: local, temperature: 0.0, max_output_tokens: 200}   # 20 §8, 20 §5.1
+  audience.brief:             {provider: muse,  temperature: 0.2, max_output_tokens: 2500}  # 20 §8
+  learning.summarize:         {provider: local, temperature: 0.0, max_output_tokens: 1000}  # 20 §8
+
+  # --- Legal chamber (22 §8) ---
+  legal.screen:       {provider: local, temperature: 0.0, max_output_tokens: 1500}  # 22 §8, 22 §2
+  legal.counsel:      {provider: muse,  temperature: 0.3, max_output_tokens: 3000}  # 22 §8 (all 8; card-specific prompts)
+  legal.synthesize:   {provider: muse,  temperature: 0.1, max_output_tokens: 4000}  # 22 §8
+  legal.entailment:   {provider: local, temperature: 0.0, max_output_tokens: 300}   # 22 §8, 22 §7
+
+  # --- Quality gate judges (17 §4) ---
+  grader.judge_a: {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 17 §4 (judge_strict; A/B on different providers if possible)
+  grader.judge_b: {provider: local, temperature: 0.0, max_output_tokens: 2000}  # 17 §4 (judge_reader)
+  grader.judge_c: {provider: muse,  temperature: 0.0, max_output_tokens: 2000}  # 17 §4 (judge_tiebreak; median of A/B/C on >= 2pt splits)
+
+  # --- Proposal desk (18 §4; no blueprint routing block, keys follow the desk workflow) ---
+  proposals.draft: {provider: muse,  temperature: 0.4, max_output_tokens: 2500}  # 18 §1-§4 (pitch + placements + modes + questions)
+  proposals.chat:  {provider: muse,  temperature: 0.6, max_output_tokens: 1500}  # 18 §4 (discuss step, Dialogist runtime)
+
+  # --- Foundation (23) ---
+  foundation.parse_brief: {provider: muse, temperature: 0.0, max_output_tokens: 8000}  # 23 §2 (brief md -> ChapterBrief)
+  classify.block_map:     {provider: local, temperature: 0.0, max_output_tokens: 200}   # 23 §5 (unmarked text -> block/prompt)

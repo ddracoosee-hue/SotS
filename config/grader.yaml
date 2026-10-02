@@ -1,0 +1,276 @@
+# Quality Gate grader: gates (17 §1) and rubrics (17 §3.1–3.5, 22 §5).
+# Scoring (17 §2): score = 100 × Σ(weight × criterion_score / 5), each criterion 0–5.
+# PASS ⇔ score ≥ threshold AND every criterion ≥ its floor AND every hard check passes.
+# Weights within each rubric sum to 1.0 (asserted in tests).
+
+threshold: 95
+floor: 4 # default per-criterion floor, of 5
+max_attempts: 4 # 17 §5
+plateau_window: 3 # attempts before the plateau check applies
+plateau_delta: 1.0 # min score gain to keep regenerating
+
+gates:
+  - id: G-PROP
+    artifact: "proposals to the author (18)"
+    rubric: proposal
+    required: true
+  - id: G-REPORT
+    artifact: "deep research reports (11)"
+    rubric: research_report
+    required: true
+  - id: G-HUNK-B
+    artifact: "pass B rewrite hunks shown to the author (19 §4)"
+    rubric: rewrite_hunk
+    required: true
+  - id: G-HUNK-A
+    artifact: "pass A rewrite hunks"
+    rubric: rewrite_hunk
+    required: false # only if rewrite.pass_a.author_review is true
+    condition: "rewrite.pass_a.author_review"
+  - id: G-LEGAL
+    artifact: "legal position & defense memos (22)"
+    rubric: legal_memo
+    required: true
+  - id: G-AUD
+    artifact: "audience briefs sent to the rewriter (20)"
+    rubric: audience_brief
+    required: true
+
+rubrics:
+  proposal: # 17 §3.1 (the main rubric); reliability 0.50 + usability 0.50
+    hard_checks:
+      - id: H1
+        text: "Every factual statement links to verified Evidence (R-TRUTH-02)."
+      - id: H2
+        text: "No evidence item has final verdict FALSE / MISLEADING, unless the proposal is a correction or counterpoint that says so."
+      - id: H3
+        text: "At least 2 placement options, each pointing at an existing unit id or a named new-section anchor."
+      - id: H4
+        text: "It links to ≥ 1 core message or chapter brief (R-EXP-07)."
+      - id: H5
+        text: "No open HIGH legal flag from the pre-screen (22 §2)."
+      - id: H6
+        text: "Quoted material ≤ the fair-use excerpt limits (07 §2: ≤ 300 characters; lyrics are never quoted)."
+    criteria:
+      - id: R1
+        name: source_strength
+        group: reliability
+        type: measured
+        weight: 0.12
+        anchors: {5: "best source tier 1–2, ≥ 2 independent domains", 3: "tier 3 only", 1: "tier 4–5 only"}
+      - id: R2
+        name: verification_status
+        group: reliability
+        type: measured
+        weight: 0.14
+        anchors: {5: "all key claims TRUE/MOSTLY_TRUE", 3: "some PARTIALLY_TRUE", 1: "UNSUPPORTED present"}
+      - id: R3
+        name: claim_evidence_fit
+        group: reliability
+        type: judged
+        weight: 0.12
+        anchors: {5: "evidence states exactly what the proposal says", 3: "nearby but broader or narrower", 1: "inferred leap"}
+      - id: R4
+        name: recency_currency
+        group: reliability
+        type: measured
+        weight: 0.05
+        anchors: {5: "data ≤ 5 years old, or timeless", 3: "5–10 years", 1: "> 10 years presented as current"}
+      - id: R5
+        name: balance
+        group: reliability
+        type: judged
+        weight: 0.07
+        anchors: {5: "counter-evidence acknowledged", 3: "mentioned lightly", 1: "one-sided"}
+      - id: U1
+        name: message_relevance
+        group: usability
+        type: measured_judged
+        weight: 0.12
+        anchors: {5: "directly advances a priority-1 message", 3: "tangential", 1: "unrelated"}
+      - id: U2
+        name: placement_fit
+        group: usability
+        type: judged
+        weight: 0.08
+        anchors: {5: "slots in naturally after the cited unit", 3: "needs bridging", 1: "disrupts flow"}
+      - id: U3
+        name: audience_fit
+        group: usability
+        type: measured
+        weight: 0.08
+        anchors: {5: "predicted resonance ≥ 8/10 in the primary cohort", 3: "6–7", 1: "< 6"}
+      - id: U4
+        name: voice_compatibility
+        group: usability
+        type: measured
+        weight: 0.06
+        anchors: {5: "fits the style guide", 3: "needs adaptation", 1: "clashes"}
+      - id: U5
+        name: novelty
+        group: usability
+        type: measured
+        weight: 0.06
+        anchors: {5: "adds something not already in the manuscript", 3: "partly redundant", 1: "duplicate"}
+      - id: U6
+        name: integration_effort_vs_value
+        group: usability
+        type: judged
+        weight: 0.05
+        anchors: {5: "high value, low effort", 3: "balanced", 1: "low value, high effort"}
+      - id: U7
+        name: legal_ethical_cleanliness
+        group: usability
+        type: measured
+        weight: 0.05
+        anchors: {5: "no flags", 3: "LOW flags only", 1: "MEDIUM flags"}
+
+  rewrite_hunk: # 17 §3.2
+    hard_checks:
+      - id: H1
+        text: "The meaning-preservation check passes (19 §5.3)."
+      - id: H2
+        text: "The cross-check passes."
+      - id: H3
+        text: "Protected terms are intact."
+      - id: H4
+        text: "The edit budget is respected."
+    criteria:
+      - id: voice_fidelity
+        type: measured
+        weight: 0.30
+        anchors: {5: "indistinguishable from the author's voice", 3: "mostly consistent with minor drift", 1: "clashes with the author's voice"}
+      - id: clarity_gain
+        type: judged
+        weight: 0.20
+        anchors: {5: "materially clearer with no loss", 3: "slightly clearer", 1: "no clearer, or muddier"}
+      - id: correctness
+        type: measured
+        weight: 0.15
+        anchors: {5: "all LanguageTool issues resolved", 3: "most resolved", 1: "errors remain or were introduced"}
+      - id: audience_metric_delta
+        type: measured
+        weight: 0.15
+        anchors: {5: "target metrics improved, no regression", 3: "neutral", 1: "primary metric regressed"}
+      - id: flow
+        type: judged
+        weight: 0.10
+        anchors: {5: "flows seamlessly with surrounding text", 3: "needs minor bridging", 1: "disrupts flow"}
+      - id: necessity
+        type: judged
+        weight: 0.10
+        anchors: {5: "the change was clearly needed", 3: "defensible either way", 1: "change for its own sake"}
+
+  research_report: # 17 §3.3
+    hard_checks:
+      - id: H1
+        text: "The R-EXP-03 validator passes."
+      - id: H2
+        text: "Counter-perspectives are non-empty."
+    criteria:
+      - id: source_diversity
+        type: measured
+        weight: 0.15
+        anchors: {5: "many independent sources across types", 3: "adequate range", 1: "single-source or narrow"}
+      - id: tier_1_2_share
+        type: measured
+        weight: 0.20
+        anchors: {5: "dominated by tier 1–2 sources", 3: "mixed tiers", 1: "tier 4–5 only"}
+      - id: sub_question_coverage
+        type: measured
+        weight: 0.20
+        anchors: {5: "every sub-question answered", 3: "most answered", 1: "major gaps"}
+      - id: synthesis_quality
+        type: judged
+        weight: 0.15
+        anchors: {5: "findings woven into a coherent answer", 3: "listed with light synthesis", 1: "a pile of excerpts"}
+      - id: connection_to_author_text
+        type: judged
+        weight: 0.15
+        anchors: {5: "directly tied to the author's claims", 3: "loosely connected", 1: "unrelated to the text"}
+      - id: clarity
+        type: judged
+        weight: 0.15
+        anchors: {5: "clear, scannable, well-structured", 3: "readable with effort", 1: "confusing or bloated"}
+
+  legal_memo: # 17 §3.4 (the 95 gate applies to the memo, 22 §5)
+    hard_checks:
+      - id: H1
+        text: "Every legal authority cited was fetched and excerpt-verified."
+      - id: H2
+        text: "Endorsement ≥ 6/8."
+      - id: H3
+        text: "No unresolved HIGH risk."
+      - id: H4
+        text: "A dissent scoring in the top 2 is answered point by point (22 §4.1)."
+    criteria:
+      - id: authority_quality
+        type: measured
+        weight: 0.25
+        anchors: {5: "primary law / official guidance throughout", 3: "mix of primary and secondary", 1: "weak or secondary-only authorities"}
+      - id: issue_coverage
+        type: measured
+        weight: 0.20
+        anchors: {5: "every issue type addressed", 3: "most addressed", 1: "issues missed"}
+      - id: argument_coherence
+        type: judged
+        weight: 0.20
+        anchors: {5: "a single cohesive defense", 3: "coherent with gaps", 1: "contradictory or scattershot"}
+      - id: dissent_addressed
+        type: judged
+        weight: 0.15
+        anchors: {5: "every dissent answered with reasons", 3: "acknowledged lightly", 1: "dissents ignored"}
+      - id: practicality_of_edits
+        type: judged
+        weight: 0.20
+        anchors: {5: "edits are concrete and minimal", 3: "workable with effort", 1: "vague or destructive edits"}
+
+  audience_brief: # 17 §3.5
+    hard_checks:
+      - id: H1
+        text: "Every claim about reader reactions references persona reaction ids."
+      - id: H2
+        text: "The metrics match the aggregator output exactly."
+    criteria:
+      - id: actionability
+        type: judged
+        weight: 0.35
+        anchors: {5: "every item is a concrete direction", 3: "some items actionable", 1: "vague or unactionable"}
+      - id: prioritization
+        type: judged
+        weight: 0.25
+        anchors: {5: "ordered by evidence-backed impact", 3: "roughly ordered", 1: "no meaningful order"}
+      - id: voice_safety
+        type: judged
+        weight: 0.20
+        anchors: {5: "no change risks the style guide", 3: "minor voice risks flagged", 1: "asks for guide-violating changes"}
+      - id: evidence_backing
+        type: measured
+        weight: 0.20
+        anchors: {5: "every item cites reactions + metrics", 3: "most items cited", 1: "claims without evidence"}
+
+  legal_argument: # 22 §5 (R4 positions; ranks arguments, no 95 gate on positions)
+    hard_checks:
+      - id: H1
+        text: "The position has its own reasoning + authority (no bare deference, 22 §4.1)."
+    criteria:
+      - id: authority_quality
+        type: measured
+        weight: 0.30
+        anchors: {5: "fetched primary authorities, exactly on point", 3: "relevant secondary authorities", 1: "weak or missing authorities"}
+      - id: relevance_to_exact_wording
+        type: judged
+        weight: 0.25
+        anchors: {5: "argues the exact words on the page", 3: "argues the gist", 1: "argues a different claim"}
+      - id: logical_soundness
+        type: judged
+        weight: 0.20
+        anchors: {5: "valid chain from authority to conclusion", 3: "plausible with a gap", 1: "fallacious or leaping"}
+      - id: practicality_of_edits
+        type: judged
+        weight: 0.15
+        anchors: {5: "edits are concrete and minimal", 3: "workable with effort", 1: "vague or destructive edits"}
+      - id: engagement_with_opposing_view
+        type: judged
+        weight: 0.10
+        anchors: {5: "steel-mans and answers the opposition", 3: "acknowledges it", 1: "ignores it"}

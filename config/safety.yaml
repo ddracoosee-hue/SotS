@@ -1,0 +1,64 @@
+# Safety resources (01 R-PSY-04, 02 §4, 15 OI-14).
+# Shown by the TUI as a calm, non-blocking, dismissible notice when a unit shows
+# present-tense crisis language (01 R-PSY-04, 12 §TUI). The pipeline keeps running.
+
+# Generic international list. Replace the author_country placeholder with the
+# author's country resources (15 OI-14).
+crisis_resources:
+  notice_text: >-
+    If you or someone you know is struggling, consider reaching out to a
+    local crisis helpline or a trusted professional. This notice is shown
+    automatically and does not block your work.
+  international:
+    - name: Find a Helpline Worldwide
+      url: https://findahelpline.com
+      note: Free, confidential support in 130+ countries  # 29 SM-18
+    - name: International Association for Suicide Prevention
+      url: https://www.iasp.info/resources/Crisis_Centres/
+      note: Directory of crisis centres worldwide
+    - name: "US: 988 Suicide and Crisis Lifeline"
+      contact: "Call or text 988"
+      url: https://988lifeline.org
+    - name: "US: Crisis Text Line"
+      contact: "Text HOME to 741741"
+      url: https://www.crisistextline.org
+    - name: "UK/Ireland: Samaritans"
+      contact: "Call 116 123 (free)"
+      url: https://www.samaritans.org
+  author_country:
+    country: null  # TODO(15 OI-14): author's country name
+    resources:
+      - name: null  # TODO(15 OI-14): e.g. national helpline name
+        contact: null  # TODO(15 OI-14): e.g. phone / text / chat
+        url: null  # TODO(15 OI-14)
+
+# Clinical disorder labels that SotS must never output about the author or any
+# real person (01 R-PSY-02). Used by validators to reject offending findings.
+banned_labels:
+  - major depressive disorder
+  - depression
+  - generalized anxiety disorder
+  - anxiety disorder
+  - panic disorder
+  - bipolar disorder
+  - cyclothymia
+  - schizophrenia
+  - schizoaffective disorder
+  - borderline personality disorder
+  - narcissistic personality disorder
+  - antisocial personality disorder
+  - histrionic personality disorder
+  - avoidant personality disorder
+  - obsessive-compulsive disorder
+  - post-traumatic stress disorder
+  - acute stress disorder
+  - attention-deficit/hyperactivity disorder
+  - autism spectrum disorder
+  - anorexia nervosa
+  - bulimia nervosa
+  - binge-eating disorder
+  - substance use disorder
+  - dissociative identity disorder
+  - psychosis
+  - sociopath
+  - psychopath

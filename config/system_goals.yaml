@@ -1,0 +1,58 @@
+# Measurable targets for the code itself (10 §3, 11 §5, 06 §9.4, 14 §6.2).
+# `sots audit` / `sots eval` compute each goal (10 §3, 14 §4).
+# Any ==0 / ==1.0 goal that fails is a release blocker (10 §3, 14 §5).
+
+# --- System audit goals (10 §3) ---
+goals:
+  unit_extraction_coverage:     {target: ">=0.95", how: "share of gold claims matched by an extracted unit"}  # 10 §3
+  classification_accuracy:      {target: ">=0.85", how: "content_type accuracy on the gold set"}  # 10 §3
+  claim_kind_accuracy:          {target: ">=0.80"}  # 10 §3
+  fabricated_citation_rate:     {target: "==0",    how: "evidence whose excerpt is not in the cached page text"}  # 10 §3
+  verdict_agreement_with_gold:  {target: ">=0.80", how: "exact or adjacent verdict vs the human label"}  # 10 §3
+  false_true_rate:              {target: "<=0.02", how: "gold FALSE claims that the system called TRUE/MOSTLY_TRUE"}  # 10 §3
+  verdict_stability:            {target: ">=0.90", how: "same final verdict across 2 runs with cache disabled"}  # 10 §3
+  offset_integrity:             {target: "==1.0",  how: "every unit's text == document[start:end]"}  # 10 §3
+  engine_citation_validity:     {target: "==1.0",  how: "every finding cites existing unit ids"}  # 10 §3
+  cost_per_10k_words:           {target: "author sets"}  # 10 §3
+  minutes_per_10k_words:        {target: "author sets"}  # 10 §3
+
+# --- Expansion team goals (11 §5) ---
+expansion:
+  report_citation_validity:   {target: "==1.0",  how: "factual statements with valid note + verified excerpt"}  # 11 §5
+  counter_view_presence:      {target: "==1.0",  how: "reports with non-empty counter_perspectives"}  # 11 §5
+  thread_relevance_mean:      {target: ">=0.70"}  # 11 §5
+  report_source_diversity:    {target: ">=3",    how: "distinct source_classes per report"}  # 11 §5
+  tier12_share:               {target: ">=0.40", how: "notes from tier 1-2 sources"}  # 11 §5
+  author_acceptance_rate:     {target: "track",  how: "margin notes kept / (kept + dismissed)"}  # 11 §5
+  integration_uptake:         {target: "track",  how: "placements the author marked 'used'"}  # 11 §5
+  concept_graph_growth:       {target: "track",  how: "developed concepts over time"}  # 11 §5
+
+# --- Fact-check team goals (06 §9.4) ---
+fact_check_team:
+  specialist_coverage:     {target: "==1.0", how: "every STATISTIC/LEGAL/ACADEMIC/SOCIAL/QUOTE unit got its specialist"}  # 06 §9.4
+  recomputed_stat_share:   {target: ">=0.8", how: "statistics recomputed from a parsed primary table"}  # 06 §9.4
+  discovery_yield:         {target: "track", how: "proposals passing G-PROP per chapter"}  # 06 §9.4
+  media_proposal_accept:   {target: "track", how: "author accept rate for media_* proposals"}  # 06 §9.4
+
+# --- New-team goals (14 §6.2) ---
+rewrite:
+  protected_terms_preserved:     {target: "==1.0"}  # 14 §6.2
+  meaning_preservation_pass:     {target: "==1.0"}  # 14 §6.2
+  mechanic_precision:            {target: ">=0.95", how: "accepted suggestions that were real errors"}  # 14 §6.2
+  mechanic_recall:               {target: ">=0.90"}  # 14 §6.2
+  cross_check_drift_escapes:     {target: "==0",   how: "drifted items found in gold that the cross-checker missed"}  # 14 §6.2
+grader:
+  judge_agreement_within_1:      {target: ">=0.80"}  # 14 §6.2
+  below_bar_leak:                {target: "==0",   how: "items shown to the author with score < 95"}  # 14 §6.2
+legal:
+  legal_fabricated_authority_rate: {target: "==0"}  # 14 §6.2
+  intake_recall:                 {target: ">=0.90"}  # 14 §6.2
+  banner_presence:               {target: "==1.0"}  # 14 §6.2
+audience:
+  adults_only_violations:        {target: "==0"}  # 14 §6.2
+  caricature_marker_escapes:     {target: "==0"}  # 14 §6.2
+  synthetic_real_correlation:    {target: ">=0.5", how: "per metric, once real data exists"}  # 14 §6.2
+runtime:
+  invariant_violations:          {target: "==0"}  # 14 §6.2
+  dead_letter_rate:              {target: "<=0.02"}  # 14 §6.2
+  resume_success:                {target: "==1.0", how: "chaos test: kill at random steps, resume"}  # 14 §6.2
