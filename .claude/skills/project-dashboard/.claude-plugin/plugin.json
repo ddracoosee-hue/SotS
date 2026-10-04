@@ -1,0 +1,6 @@
+{
+  "name": "project-dashboard",
+  "version": "0.1.0",
+  "description": "A docked dashboard of the project's task chain, worked out by Claude from the folder, kept current as files change, with animated cross-offs; /dashboard",
+  "types": "./types/index.d.ts"
+}
