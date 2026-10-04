@@ -93,6 +93,8 @@ export const register: Register = on => {
     const snap = await read($, snapshot)
     if (!snap || snap.segments.length === 0) return next(e)
 
+    // whatever the plugins under this one draw (the usage bar) goes beneath
+    const below = await next(e)
     const { Box, Text } = $.ui.resolve(e)
     const width = Math.max(10, (e.viewport?.columns ?? 80) - 2)
     const cells = allocate(snap.segments.map(s => s.tokens), width)
@@ -124,6 +126,7 @@ export const register: Register = on => {
             </Text>
           ))}
         </Text>
+        {below}
       </Box>
     )
   })

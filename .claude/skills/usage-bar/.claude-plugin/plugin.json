@@ -1,0 +1,6 @@
+{
+  "name": "usage-bar",
+  "version": "0.1.0",
+  "description": "Draws session token usage as a stacked bar and the usage-limit windows as meters above the prompt; toggle with /usage-bar",
+  "types": "./types/index.d.ts"
+}
